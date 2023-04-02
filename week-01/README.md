@@ -7,17 +7,17 @@
 - ***EVIDENCE:*** Once you gain access to the EC2 server, run the command "whoami" and take a screenshot. 
 
 ## Week 01 - PreReqs: 
-- Create a keypair and name it "`my-key-pair`" 
-    - The CloudFormation template has been hard-coded to expect this keypair. The Stack will fail if this keypair isn't present in your environment. 
-
+    - Create a keypair and name it "`my-key-pair`" 
+        - The CloudFormation template has been hard-coded to expect this keypair. The Stack will fail if this keypair isn't present in your environment. 
+    
 ## How To Execute CloudFormation Template:
-[Cloud Formation Quick Create Link](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://aws-security-labs.s3.amazonaws.com/week-01-template.yml&stackName=week-01-stack)
-
-1) Click the link above. 
-2) Click the acknowledgement about creating IAM resources
-3) Click "Create Stack" 
-4) Wait for the stack to complete. This will create the resources and associations listed below. 
-
+    [Cloud Formation Quick Create Link](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://aws-security-labs.s3.amazonaws.com/week-01-template.yml&stackName=week-01-stack)
+    
+    1) Click the link above. 
+    2) Click the acknowledgement about creating IAM resources
+    3) Click "Create Stack" 
+    4) Wait for the stack to complete. This will create the resources and associations listed below. 
+    
 
 #### Basic Instructions:
 1) Create a keypair and name it `my-key-pair`. This is required if you're using the CloudFormation template. 
