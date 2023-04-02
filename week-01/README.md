@@ -4,34 +4,34 @@
 
 * CIDR of "/16"
 
-##### 2 Subnets
+#### 2 Subnets
 
 * 1 Public
 * 1 Private
 
-###### Internet Gateway
+#### Internet Gateway
 
-###### NAT Gateway
+#### NAT Gateway
 
-###### Route Tables
+#### Route Tables
 
 * 1 for Public Subnet
 * 1 for Private Subnet
 
-###### Elastic IP Address
+#### Elastic IP Address
 
-###### Security Group
+#### Security Group
 
 * Allow SSH, HTTP, HTTPS from anywhere
 
-###### EC2 Instance in Public Subnet
+#### EC2 Instance in Public Subnet
 
 * Add userdata to install SSM Agent
 * IAM Role attached with AmazonSSMManagedInstanceCore policy
 
-###### EC2 Instance in Private Subnet
+#### EC2 Instance in Private Subnet
 
 * Add userdata to install SSM Agent
 * IAM Role attached with AmazonSSMManagedInstanceCore policy
-###### IAM Role
+#### IAM Role
 * AmazonSSMManagedInstanceCore
