@@ -12,7 +12,7 @@
 3) Once identified, remediate the non-compliant resources (e.g., security groups). Ideally, you really should only modify the security that was created from the CloudFormation template. This can be done by setting up an AutoRemediation rule or you can manually remediate the rule yourself. 
 4) After you've deleted or modified the SSH rule, Configure Session Manager within Systems Manager. 
 5) Start a session and select the "PUBLIC RHEL" EC2 instance.
-6) 6) Run the "`whoami`" command
+6) Run the "`whoami`" command
 
 
 ## *Week 01 Basic Infrastructure Requirements:*
