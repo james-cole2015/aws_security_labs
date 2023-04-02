@@ -1,4 +1,21 @@
-## *Week 01 Infrastructure Requirements:*
+## Week 01 Challenge: 
+- **CHALLENGE:** Using AWS Config, identify any unrestricted SSH Access in your Security Groups within your AWS Account
+- ***EVIDENCE:*** Provide screenshot of non-compliant security groups
+- **CHALLENGE: **Using AWS Config: remediate (either automated or manually) the non-compliant resources
+- ***EVIDENCE:*** Provide screenshot of now compliant security groups
+- **CHALLENGE:** Using AWS Session Manager, log into the "Public RHEL" EC2 server, AFTER SSH access has been removed from the security group. 
+- ***EVIDENCE:*** Once you gain access to the EC2 server, run the command "whoami" and take a screenshot. 
+
+#### Basic Instructions:
+1) Using the Infrastructure requirements below or the CloudFormation template, configure your environment. 
+2) Set up AWS Config and add a rule for "unrestricted-ssh" and then run/evaluate the rule to check for non-compliant resources. 
+3) Once identified, remediate the non-compliant resources (e.g., security groups). Ideally, you really should only modify the security that was created from the CloudFormation template. This can be done by setting up an AutoRemediation rule or you can manually remediate the rule yourself. 
+4) After you've deleted or modified the SSH rule, Configure Session Manager within Systems Manager. 
+5) Start a session and select the "PUBLIC RHEL" EC2 instance.
+6) 6) Run the "`whoami`" command
+
+
+## *Week 01 Basic Infrastructure Requirements:*
 
 #### **VPC**
 
