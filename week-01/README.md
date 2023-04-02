@@ -24,13 +24,20 @@
 2) Using the Infrastructure requirements below or the CloudFormation template, configure your environment. 
 3) Set up AWS Config using 1-click setup. 
 4) Add a rule for "unrestricted-ssh" and then run/evaluate the rule to check for non-compliant resources. This may take a few minutes to complete evaluation.
-5) Set up remediation. Under the action drop down, click manage remediation. Choose the remediation action appropriate for the challenge. Be sure to pick the correct target under the Resource ID parameter (e.g., the resource that needs to be remediated). Save your changes. Syst
+5) Set up remediation. Under the action drop down, click manage remediation. Choose the remediation action appropriate for the challenge. Be sure to pick the correct target under the Resource ID parameter (e.g., the resource that needs to be remediated). Save your changes.
 6) Once identified, remediate the non-compliant resources (e.g., security groups). Ideally, you really should only modify the security that was created from the CloudFormation template. This can be done by setting up an AutoRemediation rule or you can manually remediate the rule yourself. 
 7) After you've deleted or modified the SSH rule, Naviage to Systems Manager. 
 8) Under the Node Management section, click on Session Manager. Click on "Start a Session" 
 9) Choose an EC2 instance to start a session and click "Start session" 
 10) Run the "`whoami`" command
-11) Clean up your environment by deleting the stack in CloudFormation. hide
+11) Clean up your environment by deleting the stack in CloudFormation.
+
+#### Challenge Instructions: 
+1) Using defined infrastructure, set up AWS Config and create a rule that checks for any security groups that have inbound rules that allow ssh from anywhere. 
+2) Set up a remediation action for non-compliant resources. 
+3) Remediate the non-compliant resources. 
+4) Without using SSH, log into one of the created EC2 instances and execute the `whoami` command. 
+5) Delete CloudFormation stack
 
 
 ## *Week 01 Basic Infrastructure Requirements:*
