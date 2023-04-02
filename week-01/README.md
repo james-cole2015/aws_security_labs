@@ -7,12 +7,13 @@
 - ***EVIDENCE:*** Once you gain access to the EC2 server, run the command "whoami" and take a screenshot. 
 
 #### Basic Instructions:
-1) Using the Infrastructure requirements below or the CloudFormation template, configure your environment. 
-2) Set up AWS Config and add a rule for "unrestricted-ssh" and then run/evaluate the rule to check for non-compliant resources. 
-3) Once identified, remediate the non-compliant resources (e.g., security groups). Ideally, you really should only modify the security that was created from the CloudFormation template. This can be done by setting up an AutoRemediation rule or you can manually remediate the rule yourself. 
-4) After you've deleted or modified the SSH rule, Configure Session Manager within Systems Manager. 
-5) Start a session and select the "PUBLIC RHEL" EC2 instance.
-6) Run the "`whoami`" command
+1) Create a keypair and name it `my-key-pair`. This is required if you're using the CloudFormation template. 
+2) Using the Infrastructure requirements below or the CloudFormation template, configure your environment. 
+3) Set up AWS Config and add a rule for "unrestricted-ssh" and then run/evaluate the rule to check for non-compliant resources. 
+4) Once identified, remediate the non-compliant resources (e.g., security groups). Ideally, you really should only modify the security that was created from the CloudFormation template. This can be done by setting up an AutoRemediation rule or you can manually remediate the rule yourself. 
+5) After you've deleted or modified the SSH rule, Configure Session Manager within Systems Manager. 
+6) Start a session and select the "PUBLIC RHEL" EC2 instance.
+7) Run the "`whoami`" command
 
 
 ## *Week 01 Basic Infrastructure Requirements:*
