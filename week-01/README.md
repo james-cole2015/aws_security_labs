@@ -14,6 +14,7 @@
 5) After you've deleted or modified the SSH rule, Configure Session Manager within Systems Manager. 
 6) Start a session and select the "PUBLIC RHEL" EC2 instance.
 7) Run the "`whoami`" command
+8) Clean up your environment by deleting the stack in CloudFormation. 
 
 
 ## *Week 01 Basic Infrastructure Requirements:*
