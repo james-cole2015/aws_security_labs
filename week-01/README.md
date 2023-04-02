@@ -1,6 +1,6 @@
 ## *Week 01 Infrastructure Requirements:*
 
-###### **VPC**
+#### **VPC**
 
 * CIDR of "/16"
 
