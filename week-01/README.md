@@ -1,9 +1,9 @@
 ## Week 01 Challenge: 
-- **CHALLENGE:** Using AWS Config, identify any unrestricted SSH access in your Security Groups within your AWS Account
+- **CHALLENGE 01:** Using AWS Config, identify any unrestricted SSH access in your Security Groups within your AWS Account
 - ***EVIDENCE:*** Provide screenshot of non-compliant security groups
-- **CHALLENGE:** Using AWS Config: remediate (either automated or manually) the non-compliant resources
+- **CHALLENGE 02:** Using AWS Config: remediate (either automated or manually) the non-compliant resources
 - ***EVIDENCE:*** Provide screenshot of now compliant security groups
-- **CHALLENGE:** Using AWS Session Manager, log into the "Public RHEL" EC2 server, AFTER SSH access has been removed from the security group. 
+- **CHALLENGE 03:** Using AWS Session Manager, log into the "Public RHEL" EC2 server, AFTER SSH access has been removed from the security group. 
 - ***EVIDENCE:*** Once you gain access to the EC2 server, run the command "whoami" and take a screenshot. 
 
 ## Bonus Points
