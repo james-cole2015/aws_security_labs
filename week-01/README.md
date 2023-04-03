@@ -20,7 +20,7 @@
 1) Click the link above. 
 2) Click the acknowledgement about creating IAM resources
 3) Click "Create Stack" 
-4) Wait for the stack to complete. This will create the resources and associations listed below. 
+4) Wait for the stack to say "create complete". This will create the resources and associations listed below. 
 
 There are two options for this challenge: 
 1) Use this as a challenge and complete without instructions. 
