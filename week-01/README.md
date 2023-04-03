@@ -23,7 +23,7 @@
 4) Wait for the stack to complete. This will create the resources and associations listed below. 
 
 There are two options for this challenge: 
-1) Use this as actual challenge and complete without instructions. 
+1) Use this as a challenge and complete without instructions. 
 2) For those newer to AWS, you can use the Instructions provided in the repo. 
 
 
