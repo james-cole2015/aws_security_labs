@@ -1,0 +1,26 @@
+Resources:
+  Week02Bucket00:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "week-02_bucket00"
+      AccessControl: "PublicRead"
+      
+  Week02Bucket01:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "week-02_bucket01"
+      AccessControl: "PublicRead"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+Outputs:
+  Week02Bucket00Id:
+    Value: !Ref Week02Bucket00
+    Description: "ID for the week-02_bucket00 S3 bucket"
+    
+  Week02Bucket01Id:
+    Value: !Ref Week02Bucket01
+    Description: "ID for the week-02_bucket01 S3 bucket"
