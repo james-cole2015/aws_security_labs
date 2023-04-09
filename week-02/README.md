@@ -37,19 +37,3 @@
 
 ## Stack Deletion 
 Once you're finished with the lab, please delete the stack inside of CloudFormation. Otherwise, it will continue to send metrics to CloudWatch. Also be sure to go into the settings of Macie and disable Macie so it no longer scans your environment. 
-
-## *Week 02 Basic Infrastructure Requirements:*
-**VPC**
-    CIDR of "/16"
-**1 Subnets**
-    1 Public
-**Internet Gateway
-NAT Gateway
-Route Tables**
-    1 for Public Subnet
-**Elastic IP Address
-Security Group**
-    Allow HTTP, HTTPS from anywhere
-**EC2 Instance in Public Subnet**
-    Add userdata to install SSM Agent, create http server, and install flog utility 
-    IAM Role attached with AmazonSSMManagedInstanceCore & CloudWatchAgentServer policy
