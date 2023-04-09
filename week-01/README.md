@@ -5,6 +5,8 @@
 - ***EVIDENCE:*** Provide screenshot of now compliant security groups
 - **CHALLENGE 03:** Using AWS Session Manager, log into the "Public RHEL" EC2 server, AFTER SSH access has been removed from the security group. 
 - ***EVIDENCE:*** Once you gain access to the EC2 server, run the command "whoami" and take a screenshot. 
+- **CHALLENGE 04** Using AWS Session Manager, send session logs to CloudWatch
+- ***EVIDENCE*** Provide a screenshot of encrypted Session Manager Logs to CloudWatch. 
 
 ## Bonus Points
 - Create an automation for non-compliant resources that sends a notification to administrators when a resource is non-compliant. 
