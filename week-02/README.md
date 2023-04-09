@@ -22,6 +22,7 @@
 ## Required Instructions: 
 **Challenge 01**
 - Once the stack is completed, upload the file named `mock-data` into the S3 bucket. 
+
 **Challenge 02**
 - Once the stack is completed, install the CloudWatch Agent. Run through the wizard, using the defaults except for the question about StatsD. Do not collect metrics for StatsD. This will cause the agent to fail as this isn't installed. 
 - When it asks for logs to track, say yes. You will need to add the following three directories: 
