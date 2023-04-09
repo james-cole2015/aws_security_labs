@@ -29,10 +29,14 @@
 - `/var/log/httpd/error_log`
 - `/ec2-user/home/totally_real_logs`
 
+
 ## Bonus 
 - Create a CloudWatch Alarm based on CPU utilization. 
 - Install `stress` utility on the EC2 server and execute the program. 
 - Wait a few minutes (5-10), and watch to see if the CloudWatch Alarm goes off and sends a notification. 
+
+## Stack Deletion 
+Once you're finished with the lab, please delete the stack inside of CloudFormation. Otherwise, it will continue to send metrics to CloudWatch. Also be sure to go into the settings of Macie and disable Macie so it no longer scans your environment. 
 
 ## *Week 02 Basic Infrastructure Requirements:*
 **VPC**
