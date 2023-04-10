@@ -8,7 +8,6 @@ Parameters:
     Description: "Name of an existing EC2 KeyPair to enable SSH access to the instances"
 
 Resources:
-Resources:
   Week02Bucket00:
     Type: "AWS::S3::Bucket"
     Properties:
@@ -82,10 +81,6 @@ Resources:
       GroupDescription: Security group for RHEL 9 instance
       VpcId: !Ref VPC
       SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 22
-          ToPort: 22
-          CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
