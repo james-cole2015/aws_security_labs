@@ -1,5 +1,5 @@
 ## Week 02 Challenge: 
-- CHALLENGE 01: Using AWS CloudWatch, gather application (web server or fake) metrics from the EC2 Instance
+- CHALLENGE 01: Using AWS CloudWatch, gather application (web server or fake) logs from the EC2 Instance
 - EVIDENCE 01: Provide a screenshot of metrics from CloudWatch Log Group
 - CHALLENGE 02: Using AWS Macie, perform a scan of an S3 Bucket and find any misconfigured buckets or PII within an S3 bucket. 
 - EVIDENCE 02: Provide screenshot of PII captured from AWS Macie
