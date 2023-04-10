@@ -25,7 +25,7 @@
 - NOTE: Macie scans may take awhile. Usually about 30 minutes or so. 
 
 **Challenge 02**
-- Once the stack is completed, install the CloudWatch Agent. Run through the wizard, using the defaults except for the question about StatsD. Do not collect metrics for StatsD. This will cause the agent to fail as this isn't installed. 
+- Once the stack is completed, install the CloudWatch Agent on the EC2 Instance provisioned. Run through the wizard, using the defaults except for the question about StatsD. Do not collect metrics for StatsD. This will cause the agent to fail as this isn't installed. 
 - When it asks for logs to track, say yes. You will need to add the following three directories: 
 - `/var/log/httpd/access_logs`
 - `/var/log/httpd/error_log`
