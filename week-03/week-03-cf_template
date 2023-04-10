@@ -1,0 +1,96 @@
+Parameters:
+  KeyPairName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Description: 'Name of an existing EC2 KeyPair to enable SSH access to the instance'
+
+Resources:
+  DefaultSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Allow all traffic within the VPC'
+      VpcId: !Ref 'VPC'
+  
+  EC2Instance1:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      ImageId: 'ami-0e850b8c899f450b5'
+      KeyName: !Ref 'KeyPairName'
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeleteOnTermination: true
+          DeviceIndex: 0
+          SubnetId: !Ref 'PublicSubnet1'
+          GroupSet:
+            - !Ref DefaultSecurityGroup
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-rhel-instance-00'
+      IamInstanceProfile: !Ref EC2SSMRole
+
+  EC2Instance2:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't2.micro'
+      ImageId: 'ami-0e850b8c899f450b5'
+      KeyName: !Ref 'KeyPairName'
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeleteOnTermination: true
+          DeviceIndex: 0
+          SubnetId: !Ref 'PublicSubnet2'
+          GroupSet:
+            - !Ref DefaultSecurityGroup
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-rhel-instance-01'
+      IamInstanceProfile: !Ref EC2SSMRole
+
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: '10.0.0.0/16'
+  
+  PublicSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref 'VPC'
+      CidrBlock: '10.0.1.0/24'
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+  
+  PublicSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref 'VPC'
+      CidrBlock: '10.0.2.0/24'
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+
+  VPCFlowLogsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'VPC-Flow-Logs-Role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: vpc-flow-logs.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Path: '/'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+
+  EC2SSMRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'ec2-ssm-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Path: '/'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
