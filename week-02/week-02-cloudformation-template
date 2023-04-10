@@ -31,15 +31,6 @@ Resources:
       Tags:
         - Key: Name
           Value: public-subnet-00
-  PrivateSubnet:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref VPC
-      CidrBlock: '15.0.1.0/24'
-      AvailabilityZone: us-east-1b
-      Tags:
-        - Key: Name
-          Value: private-subnet-00
   InternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties:
