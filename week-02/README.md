@@ -29,7 +29,7 @@
 - When it asks for logs to track, say yes. You will need to add the following three directories: 
 - `/var/log/httpd/access_logs`
 - `/var/log/httpd/error_log`
-- `/ec2-user/home/totally_real_logs`
+- `/totally_real_logs`
 
 
 ## Bonus 
