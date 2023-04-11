@@ -1,8 +1,8 @@
-## Week 02 Challenge: 
+## Week 03 Challenge: 
 
 ## Bonus Points.
 
-## Week 02 - PreReqs: 
+## Week 03 - PreReqs: 
 - Create a keypair. If you still have the keypair from last week, that will be fine. However, if you've deleted it from your machine, then you will need to create a new keypair. 
 
 ## How To Execute CloudFormation Template:
