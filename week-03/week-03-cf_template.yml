@@ -36,7 +36,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 443
           ToPort: 443
-          SourceSecurityGroupId: !Ref SsmServiceSG
+          SourceSecurityGroupId: !Ref Outbound443SG
 
   SsmSessionManagerSG:
     Type: AWS::EC2::SecurityGroup
@@ -48,7 +48,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 443
           ToPort: 443
-          SourceSecurityGroupId: !Ref SsmSessionManagerSG
+          SourceSecurityGroupId: !Ref Outbound443SG
 
   Week03RHEL:
     Type: AWS::EC2::Instance
