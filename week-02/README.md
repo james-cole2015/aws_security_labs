@@ -38,4 +38,4 @@
 - Wait a few minutes (5-10), and watch to see if the CloudWatch Alarm goes off and sends a notification. 
 
 ## Stack Deletion 
-Once you're finished with the lab, please delete the stack inside of CloudFormation. Otherwise, it will continue to send metrics to CloudWatch. Also be sure to go into the settings of Macie and disable Macie so it no longer scans your environment. 
+Once you're finished with the lab, please delete the stack inside of CloudFormation. Otherwise, it will continue to send metrics to CloudWatch. Also be sure to go into the settings of Macie and disable Macie so it no longer scans your environment. Additionally, be sure to remove the csv file from the bucket before you delete the Stack, otherwise it will fail to delete the Stack. 
