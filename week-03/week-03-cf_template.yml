@@ -1,101 +1,95 @@
+---
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   VPC:
-    Type: AWS::EC2::VPC
+    Type: 'AWS::EC2::VPC'
     Properties:
-      CidrBlock: 15.0.0.0/16
-      Tags:
-        - Key: Name
-          Value: week-03-vpc
-
+      CidrBlock: '15.0.0.0/16'
+      EnableDnsHostnames: true
   PrivateSubnet:
-    Type: AWS::EC2::Subnet
+    Type: 'AWS::EC2::Subnet'
     Properties:
+      CidrBlock: '15.0.1.0/24'
       VpcId: !Ref VPC
-      CidrBlock: 15.0.1.0/24
-
   Outbound443SG:
-    Type: AWS::EC2::SecurityGroup
+    Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupName: outbound-443-sg
-      GroupDescription: Allows outbound traffic on port 443
+      GroupDescription: 'Security group for outbound traffic on port 443'
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 443
           ToPort: 443
-          CidrIp: 0.0.0.0/0
-
-  SsmServiceSG:
-    Type: AWS::EC2::SecurityGroup
+          CidrIp: '0.0.0.0/0'
+  Inbound443SSMServiceSG:
+    Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupName: ssm-service-sg
-      GroupDescription: Allows inbound traffic on port 443 from instances with the same security group
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          SourceSecurityGroupId: !Ref Outbound443SG
-
-  SsmSessionManagerSG:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupName: ssm-session-manager-sg
-      GroupDescription: Allows inbound traffic on port 443 from instances with the same security group
+      GroupDescription: 'Security group for inbound traffic on port 443 (SSM Service)'
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 443
           ToPort: 443
           SourceSecurityGroupId: !Ref Outbound443SG
-
-  Week03RHEL:
-    Type: AWS::EC2::Instance
+  Inbound443SSMSessionManagerSG:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for inbound traffic on port 443 (SSM Session Manager)'
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref Outbound443SG
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-0323c3dd2da7fb37d
-      KeyName: mykey
+      ImageId: ami-0c55b159cbfafe1f0
+      KeyName: my-key-pair
       SubnetId: !Ref PrivateSubnet
       SecurityGroupIds:
         - !Ref Outbound443SG
-      Tags:
-        - Key: Name
-          Value: week-03-rhel
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          yum update -y
-          yum install -y httpd
-          echo "Hello World" > /var/www/html/index.html
-          systemctl start httpd
-      IamInstanceProfile: !Ref EC2SSMRole
-
-  EC2SSMRole:
-    Type: AWS::IAM::Role
+      IamInstanceProfile: !Ref SSMInstanceProfile
+  SSMInstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
     Properties:
-      RoleName: EC2SSMRole
+      Roles:
+        - !Ref SSMInstanceRole
+  SSMInstanceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: SSMInstanceRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service: ec2.amazonaws.com
-            Action: sts:AssumeRole
+            Action: 'sts:AssumeRole'
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-
-  VPCFlowLogRole:
-    Type: AWS::IAM::Role
+        - 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore'
+  VPCFlowLogsRole:
+    Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: week-03-vpc-flow-log-role
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service: vpc-flow-logs.amazonaws.com
-            Action: sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AmazonVPCFlowLogsRole
-
+            Action: 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: AllowPublishVPCFlowLogs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:DescribeLogGroups
+                  - logs:DescribeLogStreams
+                  - logs:PutLogEvents
+                Resource: 'arn:aws:logs:*:*:*'
