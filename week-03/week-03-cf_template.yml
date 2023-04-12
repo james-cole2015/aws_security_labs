@@ -1,116 +1,101 @@
-Parameters:
-  Vpc:
-    Type: AWS::EC2::VPC::Id
-    Description: Select VPC for EC2 instance creation
-  Subnets:
-    Type: List<AWS::EC2::Subnet::Id>
-    Description: Select the subnets for EC2 instance creation
-  SecurityGroups:
-    Type: List<AWS::EC2::SecurityGroup::Id>
-    Description: Select the security groups for EC2 instance creation
-  InstanceType:
-    Type: String
-    Default: t2.micro
-    Description: Select EC2 instance type
-  KeyName:
-    Type: AWS::EC2::KeyPair::KeyName
-    Description: Select key pair for EC2 instance
-
+AWSTemplateFormatVersion: '2010-09-09'
 Resources:
-  EC2Instance:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 15.0.0.0/16
+      Tags:
+        - Key: Name
+          Value: week-03-vpc
+
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 15.0.1.0/24
+
+  Outbound443SG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: outbound-443-sg
+      GroupDescription: Allows outbound traffic on port 443
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+  SsmServiceSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: ssm-service-sg
+      GroupDescription: Allows inbound traffic on port 443 from instances with the same security group
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref SsmServiceSG
+
+  SsmSessionManagerSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: ssm-session-manager-sg
+      GroupDescription: Allows inbound traffic on port 443 from instances with the same security group
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref SsmSessionManagerSG
+
+  Week03RHEL:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceType: !Ref InstanceType
-      KeyName: !Ref KeyName
-      IamInstanceProfile: !Ref InstanceProfile
-    InstanceProfile:
-      Type: AWS::IAM::InstanceProfile
-      Properties:
-        InstanceProfileName: my-instance-profile
-        Roles:
-          - !Ref EC2SSMRole
-      ImageId: ami-0c94855ba95c71c99 # Replace with appropriate AMI ID
-      NetworkInterfaces:
-        - GroupSet: !Ref SecurityGroups
-          AssociatePublicIpAddress: false
-          DeviceIndex: 0
-          DeleteOnTermination: true
-          SubnetId: !Select [0, !Ref Subnets]
-          PrivateIpAddress: 10.0.0.10 # Replace with an appropriate IP address for your VPC
-          Description: "Primary network interface"
-
-  SSMEndpoint:
-    Type: AWS::EC2::VPCEndpoint
-    Properties:
-      ServiceName: com.amazonaws.us-east-1.ssm
-      VpcId: !Ref Vpc
-      PrivateDnsEnabled: true
-      SecurityGroupIds: !Ref SecurityGroups
-      SubnetIds: !Ref Subnets
-
-  SSMMessageEndpoint:
-    Type: AWS::EC2::VPCEndpoint
-    Properties:
-      ServiceName: com.amazonaws.us-east-1.ssmmessages
-      VpcId: !Ref Vpc
-      PrivateDnsEnabled: true
-      SecurityGroupIds: !Ref SecurityGroups
-      SubnetIds: !Ref Subnets
-
-  FlowLogRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Policies:
-        - PolicyName: Allow-Flow-Logs
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: arn:aws:logs:*:*:log-group:/aws/vpc/flow-logs/*
-
-  FlowLog:
-    Type: AWS::EC2::FlowLog
-    Properties:
-      DeliverLogsPermissionArn: !GetAtt FlowLogRole.Arn
-      LogGroupName: /aws/vpc/flow-logs
-      ResourceId: !Ref Vpc
-      ResourceType: VPC
-      TrafficType: ALL
+      InstanceType: t2.micro
+      ImageId: ami-0323c3dd2da7fb37d
+      KeyName: mykey
+      SubnetId: !Ref PrivateSubnet
+      SecurityGroupIds:
+        - !Ref Outbound443SG
+      Tags:
+        - Key: Name
+          Value: week-03-rhel
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd
+          echo "Hello World" > /var/www/html/index.html
+          systemctl start httpd
+      IamInstanceProfile: !Ref EC2SSMRole
 
   EC2SSMRole:
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
-      RoleName: 'ec2-ssm-role'
+      RoleName: EC2SSMRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service: ec2.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Path: '/'
+            Action: sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
 
-Outputs:
-  InstancePrivateIP:
-    Value: !GetAtt EC2Instance.PrivateIp
-  SSMEndpointId:
-    Value: !Ref SSMEndpoint
-  SSMMessageEndpointId:
-    Value: !Ref SSMMessageEndpoint
-
+  VPCFlowLogRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: week-03-vpc-flow-log-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: vpc-flow-logs.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonVPCFlowLogsRole
 
