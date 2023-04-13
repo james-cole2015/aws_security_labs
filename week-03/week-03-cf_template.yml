@@ -9,7 +9,7 @@ Resources:
       EnableDnsSupport: true
     Tags: 
       - Key: Name
-      - Value: Week-03-vpc
+      - Value: week-03-vpc
   PrivateSubnet:
     Type: 'AWS::EC2::Subnet'
     Tags: 
