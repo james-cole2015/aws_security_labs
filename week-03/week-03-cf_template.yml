@@ -8,16 +8,16 @@ Resources:
       EnableDnsHostnames: true
       EnableDnsSupport: true
       Tags: 
-        - Key: Name
-          Value: week-03-vpc
+       - Key: Name
+         Value: week-3-vpc
   PrivateSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
       CidrBlock: '15.0.1.0/24'
       VpcId: !Ref VPC
       Tags: 
-      - Key: Name
-        Value: week-03-private-subnet
+       - Key: Name
+         Value: week-03-private-subnet
   Outbound443SG:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
