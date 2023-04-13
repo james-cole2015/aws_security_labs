@@ -9,12 +9,12 @@ Resources:
       EnableDnsSupport: true
     Tags: 
       - Key: Name
-      - Value: week-03-vpc
+        Value: week-03-vpc
   PrivateSubnet:
     Type: 'AWS::EC2::Subnet'
     Tags: 
       - Key: Name
-      - Value: week-03-private-subnet
+        Value: week-03-private-subnet
     Properties:
       CidrBlock: '15.0.1.0/24'
       VpcId: !Ref VPC
