@@ -7,9 +7,9 @@ Resources:
       CidrBlock: '15.0.0.0/16'
       EnableDnsHostnames: true
       EnableDnsSupport: true
-    Tags: 
-      - Key: Name
-        Value: week-03-vpc
+      Tags: 
+        - Key: Name
+          Value: week-03-vpc
   PrivateSubnet:
     Type: 'AWS::EC2::Subnet'
     Properties:
