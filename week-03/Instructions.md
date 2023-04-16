@@ -37,8 +37,7 @@ it can't communicate without the `ec2-messages` endpoint. Let's configure that.
 ##### Challenge 02
 1) Connect to the instance and run the `aws s3 ls` command.
 2) The command will fail. Why? 
-3) Navigate to the subnet that the EC2 instance is attached to
-  - Can view this under "Details" and "Subnet ID" 
+3) Navigate to the subnet that the EC2 instance is attached to. You can view this under "Details" and "Subnet ID" 
 4) Select the subnet and then view the Route Table it's attached to. 
 5) Note the routes. There is no route from this subnet to S3. 
 6) Let's create another Endpoint. Navigate to VPC -> Endpoints. 
@@ -56,14 +55,14 @@ it can't communicate without the `ec2-messages` endpoint. Let's configure that.
 ##### Challenge 03
 1) Navigate to the week-03-vpc and select the VPC 
 2) Select "Flow Logs" and then click "Create flow log" 
-3) Choose a name like "week-03-flow-logs"
+3) Choose a name like `week-03-flow-logs`
 4) Under Maximum aggregation interval, choose 1 minute 
-5) For the Destination log group, choose the log group named "vpc-log-group"
-6) For the IAM Role, make sure you choose the vpc-flow-logs-role 
+5) For the Destination log group, choose the log group named `vpc-log-group`
+6) For the IAM Role, make sure you choose the `vpc-flow-logs-role` 
 7) You can add some tags if you like, but it's not required. 
 8) Click "Create flow log" and the logs will be created. 
 9) You'll need to wait a few minutes, as it gathers logs every minute. However, connect to the instance using Session Manager to generate some logs 
-10) Navigate to CloudWatch, on the left hand menu, Under Logs, click on Log Groups. Click on the created log group named "vpc-flow-logs" 
+10) Navigate to CloudWatch, on the left hand menu, Under Logs, click on Log Groups. Click on the created log group named `vpc-flow-logs`
 11) Select any of the log streams and view your logs. 
 
 ##### Reachability Analyzer
@@ -80,7 +79,7 @@ If you're having issues completing the labs, please utilize the VPC Reachability
 
 ##### Clean Up
 1) Make sure to delete all of the endpoints that have been created. 
-  - This may take a few minutes. 
+   - This may take a few minutes. 
 2) Delete the vpc-flow-logs group
-2) After the endpoints are deleted, make sure to delete the stack. 
+3) After the endpoints are deleted, make sure to delete the stack. 
 
