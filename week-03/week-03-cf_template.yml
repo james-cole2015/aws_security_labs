@@ -3,8 +3,15 @@ Parameters:
   KeyName:
     Type: 'AWS::EC2::KeyPair::KeyName'
     Description: Name of an existing EC2 KeyPair for SSH access
+  RandomNumber:
+    Type: "Number"
+    Description: "A random number used to generate unique bucket names"
 
 Resources:
+  Week03Bucket00:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "week-03-bucket00-${RandomNumber}"
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
@@ -106,7 +113,7 @@ Resources:
   RHEL9Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      ImageId: 'ami-0aa2b7722dc1b5612' # RHEL 9
+      ImageId: 'ami-0ff8a91507f77f867' # RHEL 9
       InstanceType: t2.micro
       IamInstanceProfile: !Ref InstanceProfile
       KeyName: !Ref KeyName 
