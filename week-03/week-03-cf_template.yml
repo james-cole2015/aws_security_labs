@@ -113,7 +113,7 @@ Resources:
   RHEL9Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      ImageId: 'ami-0ff8a91507f77f867' # RHEL 9
+      ImageId: 'ami-0aa2b7722dc1b5612' # Ubuntu 20.04
       InstanceType: t2.micro
       IamInstanceProfile: !Ref InstanceProfile
       KeyName: !Ref KeyName 
