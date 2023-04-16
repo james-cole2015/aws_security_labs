@@ -1,111 +1,151 @@
----
-AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  KeyName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Description: Name of an existing EC2 KeyPair for SSH access
+
 Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
-      CidrBlock: '15.0.0.0/16'
+      CidrBlock: '10.0.0.0/16'
       EnableDnsHostnames: true
       EnableDnsSupport: true
       Tags: 
-       - Key: Name
-         Value: week-3-vpc
-  PrivateSubnet:
+        - Key: Name
+          Value: week-03-vpc
+  
+  PrivateSubnet1:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      CidrBlock: '15.0.1.0/24'
       VpcId: !Ref VPC
-      Tags: 
-       - Key: Name
-         Value: week-03-private-subnet
-  Outbound443SG:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: 'Security group for outbound traffic on port 443'
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: '0.0.0.0/0'
-  Inbound443SSMServiceSG:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: 'Security group for inbound traffic on port 443 (SSM Service)'
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          SourceSecurityGroupId: !Ref Outbound443SG
-  Inbound443SSMSessionManagerSG:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: 'Security group for inbound traffic on port 443 (SSM Session Manager)'
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          SourceSecurityGroupId: !Ref Outbound443SG
-  EC2Instance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      InstanceType: t2.micro
+      CidrBlock: '10.0.1.0/24'
+      AvailabilityZone: !Select [0, !GetAZs '']
       Tags:
-        - Key: Name
-          Value: Week-03 RHEL Instance
-      ImageId: ami-0c41531b8d18cc72b
-      KeyName: my-key-pair
-      UserData: 
-        Fn::Base64: !Sub | ## this installs the systems manager agent, the cloudwatch agent, an http server, and the fake log generator
-          #!/bin/bash -xe
-          sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-          sudo systemctl enable amazon-ssm-agent
-          sudo systemctl start amazon-ssm-agent
-      SubnetId: !Ref PrivateSubnet
-      SecurityGroupIds:
-        - !Ref Outbound443SG
-      IamInstanceProfile: !Ref SSMInstanceProfile
-  SSMInstanceProfile:
-    Type: 'AWS::IAM::InstanceProfile'
+        - Key: 'Name'
+          Value: 'week-03-subnet-1'
+  
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
     Properties:
-      Roles:
-        - !Ref SSMInstanceRole
-  SSMInstanceRole:
-    Type: 'AWS::IAM::Role'
+      VpcId: !Ref VPC
+      CidrBlock: '10.0.2.0/24'
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-subnet-2'
+  
+  PrivateRouteTable1:
+    Type: 'AWS::EC2::RouteTable'
     Properties:
-      RoleName: SSMInstanceRole
+      VpcId: !Ref VPC
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-route-table-1'
+  
+  PrivateRouteTable2:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-route-table-2'
+  
+  PrivateSubnet1RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable1
+  
+  PrivateSubnet2RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable2
+## this role allows the ec2 instance to have ssm permissions 
+  SessionManagerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: SessionManagerRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service: ec2.amazonaws.com
-            Action: 'sts:AssumeRole'
+            Action: sts:AssumeRole
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore'
-  VPCFlowLogsRole:
-    Type: 'AWS::IAM::Role'
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+
+## This allows https traffic from the vpc to the endpoints 
+  EndpointSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
     Properties:
+      GroupName: endpoint-sg
+      GroupDescription: Security group for endpoint access
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 10.0.0.0/16
+#this allows traffic from the ec2 instance to the endpoints 
+  EC2EndpointSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTPS from endpoint SG
+      GroupName: ec2-instance-sg
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref EndpointSecurityGroup
+
+  RHEL9Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-0aa2b7722dc1b5612' # RHEL 9
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !Ref KeyName 
+      Tags:
+        - Key: Name
+          Value: Week-03 RHEL Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-02
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet1
+          GroupSet:
+            - !Ref EC2EndpointSG
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: my-instance-profile
+      Roles:
+        - !Ref SessionManagerRole
+
+## creating cloudwatch log group
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: vpc-flow-logs
+
+## creating the cloudwatch logs role
+  VpcFlowLogsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: vpc-flow-logs-role
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
               Service: vpc-flow-logs.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Path: /
-      Policies:
-        - PolicyName: AllowPublishVPCFlowLogs
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:DescribeLogGroups
-                  - logs:DescribeLogStreams
-                  - logs:PutLogEvents
-                Resource: 'arn:aws:logs:*:*:*'
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
