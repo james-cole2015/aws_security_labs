@@ -110,10 +110,58 @@ Resources:
           ToPort: 443
           SourceSecurityGroupId: !Ref EndpointSecurityGroup
 
+## Instance for Challenge 1 and 2
   RHEL9Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
       ImageId: 'ami-0aa2b7722dc1b5612' # Ubuntu 20.04
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !Ref KeyName 
+      Tags:
+        - Key: Name
+          Value: Week-03 Ubuntu Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-02
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet1
+          GroupSet:
+            - !Ref EC2EndpointSG
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: my-instance-profile
+      Roles:
+        - !Ref SessionManagerRole
+
+  Linux2AMIInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-06e46074ae430fba6' # Linux 2 AMI
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !Ref KeyName 
+      Tags:
+        - Key: Name
+          Value: Week-03 Linux Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-02
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet1
+          GroupSet:
+            - !Ref EC2EndpointSG
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: my-instance-profile
+      Roles:
+        - !Ref SessionManagerRole' 
       InstanceType: t2.micro
       IamInstanceProfile: !Ref InstanceProfile
       KeyName: !Ref KeyName 
@@ -135,6 +183,7 @@ Resources:
       InstanceProfileName: my-instance-profile
       Roles:
         - !Ref SessionManagerRole
+
 
 ## creating cloudwatch log group
   LogGroup:
