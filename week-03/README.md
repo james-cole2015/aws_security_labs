@@ -20,7 +20,7 @@ This weeks challenge is to manage an EC2 instance without traversing the public 
   3) Start a Session via Session Manager
 
 **Challenge 02**
-- Create a Gateway endpoint to access an S3 bucket in the account without public internet access. 
+- Access an S3 Bucket without moving through the public internet
 
 **Challenge 03**
 - Set up and configure VPC Flow Logs

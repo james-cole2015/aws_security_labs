@@ -124,7 +124,7 @@ Resources:
         - Key: platform 
           Value: aws_security_labs
         - Key: Week
-          Value: week-02
+          Value: week-03
       NetworkInterfaces:
         - DeviceIndex: '0'
           SubnetId: !Ref PrivateSubnet1
@@ -146,11 +146,11 @@ Resources:
       KeyName: !Ref KeyName 
       Tags:
         - Key: Name
-          Value: Week-03 Linux Instance
+          Value: Week-03 Amazon Linux Instance
         - Key: platform 
           Value: aws_security_labs
         - Key: Week
-          Value: week-02
+          Value: week-03
       NetworkInterfaces:
         - DeviceIndex: '0'
           SubnetId: !Ref PrivateSubnet1
@@ -171,7 +171,7 @@ Resources:
         - Key: platform 
           Value: aws_security_labs
         - Key: Week
-          Value: week-02
+          Value: week-03
       NetworkInterfaces:
         - DeviceIndex: '0'
           SubnetId: !Ref PrivateSubnet1
