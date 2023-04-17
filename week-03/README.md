@@ -29,6 +29,8 @@ This weeks challenge is to manage an EC2 instance without traversing the public 
 ## Bonus 
 - Store Run Command Logs in an S3 bucket
 - Store Session Logs in CloudWatch
+- Submit Terraform code, CloudFormation template, or AWS CDK code that completes everything.
+
 
 ## Stack Deletion 
 Once you're finished with the lab, please delete the stack inside of CloudFormation. Be sure the empty the S3 bucket before you attempt to delete the stack. You must also delete the endpoints before you delete the stack. 
