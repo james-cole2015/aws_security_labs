@@ -4,7 +4,7 @@
 - Create a keypair. If you still have the keypair from last week, that will be fine. However, if you've deleted it from your machine, then you will need to create a new keypair. 
 
 ## How To Execute CloudFormation Template:
-[Week 04 CloudFormation Quick Create Link](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://aws-security-labs.s3.amazonaws.com/week-03-cf_template.yml&stackName=week-03-stack)
+[Week 04 CloudFormation Quick Create Link](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://aws-security-labs.s3.amazonaws.com/week-04-cf_template.yml&stackName=week-04-stack)
 1. Click the link above.
 3. Select a keypair
 4. Choose a Random Number for the S3 bucket. 
@@ -35,12 +35,12 @@ Develop an S3 bucket policy that will allow the customer to host CloudFormation 
 Develop a policy that will allow users to manage thier own resources in EC2, but will not allow them to have access to the other instances. The customer has a small IAM department and is trying to maintain the number of IAM policies being used. Be sure to only develop ONE policy that will be applied to all users. 
 
 
-## Bonus 
-
-
 ## Environment Clean Up 
 - Before you delete the stack, perform the following: 
-  - Make sure that the policies are removed from the Sarah Jane Smith user. Also make sure that you disable console access for the Sarah Jane Smith user. 
-  - Remove the `index.html` from the S3 bucket. 
+- Make sure that the policies are removed from the `AmeliaPond` user. Also make sure that you disable console access. 
+- Make sure you remove the `sts-assume-role` policy from the `SarahJaneSmith` user. Also make sure that you disable console access. 
+- Delete any roles or policies that you have created. 
+- Remove the `index.html` from the S3 bucket. 
+- Delete the stack
 
 
