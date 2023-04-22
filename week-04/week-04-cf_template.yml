@@ -1,0 +1,321 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+  RandomNumber:
+    Type: "Number"
+    Description: "A random number used to generate unique bucket names"
+
+############ S3 Bucket #################
+Resources:
+  Week04Bucket00:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "week-04-bucket00-${RandomNumber}"
+      AccessControl: "PublicRead"
+############ Network Infrastructure ############
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: week-04-vpc
+  DevelopmentSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: "10.0.1.0/24"
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: development
+  TestingSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: "10.0.2.0/24"
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: testing
+  ApplicationSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: "10.0.3.0/24"
+      AvailabilityZone: !Select [2, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: application
+  ProductionSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: "10.0.4.0/24"
+      AvailabilityZone: !Select [3, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: production
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: week-04-igw
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  NatGatewayEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayEIP.AllocationId
+      SubnetId: !Ref ProductionSubnet
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: private
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: public
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      NatGatewayId: !Ref NatGateway
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+  DevelopmentRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref DevelopmentSubnet
+      RouteTableId: !Ref PrivateRouteTable
+  TestingRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref TestingSubnet
+      RouteTableId: !Ref PrivateRouteTable
+  ApplicationRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref ApplicationSubnet
+      RouteTableId: !Ref PrivateRouteTable
+  ProductionRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref ProductionSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+############# Instances #############
+  
+  ProductionInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-0ff8a91507f77f867' # Amazon Linux 2
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      SubnetId: !Ref ProductionSubnet
+      KeyName: !Ref KeyName 
+      SecurityGroupIds:
+        - !Ref ProductionSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Production Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-04
+        - Key: Department
+          Value: Production
+
+  DevelopmentInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-0aa2b7722dc1b5612' # Ubuntu 20.04
+      InstanceType: t2.micro
+      SubnetId: !Ref DevelopmentSubnet
+      KeyName: !Ref KeyName 
+      SecurityGroupIds:
+        - !Ref DevelopmentSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Development Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-04
+        - Key: Department
+          Value: Development
+
+  TestInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-0aa2b7722dc1b5612' # Ubuntu 20.04
+      InstanceType: t2.micro
+      SubnetId: !Ref TestingSubnet
+      KeyName: !Ref KeyName 
+      SecurityGroupIds:
+        - !Ref TestSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Test Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-04
+        - Key: Department
+          Value: Test
+
+  ApplicationInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-0aa2b7722dc1b5612' # Ubuntu 20.04
+      InstanceType: t2.micro
+      SubnetId: !Ref ApplicationSubnet
+      KeyName: !Ref KeyName 
+      SecurityGroupIds:
+        - !Ref ApplicationSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Application Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-04
+        - Key: Department
+          Value: Application
+
+############# Security Groups #############
+
+  ProductionSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Production instance
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+  DevelopmentSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Development instance
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  TestSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Test instance
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  ApplicationSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Test instance
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+############# IAM Resources #############
+  EC2InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EC2_Role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: my-instance-profile
+      Roles:
+        - !Ref EC2InstanceRole
+
+  SarahJaneSmithUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: 'SarahJaneSmith'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+  AmeliaPondUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: 'AmeliaPond'
+      Tags: 
+       - Key: Department
+         Value: Production
