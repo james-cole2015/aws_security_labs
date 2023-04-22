@@ -22,10 +22,10 @@ Create a solution that will allow IAM users to have administrative permissions t
 
 ### **<u>Challenge 02**
 ***
-***Problem Statement:*** Customer is developing a simulated lab environment. They host a CloudFormation Quick Create link that will allow users to quickly deploy infrastrucutre to utlize. They want these objects to be public, but other objects in the bucket should not be public.
+***Problem Statement:*** Customer is developing a simulated lab environment. They host a CloudFormation templates that will allow users to quickly deploy infrastrucutre to utlize. They have made sure that these templates are tagged with a key-value pair of `environment:aws-security-labs`. They want these objects to be public, but other objects in the bucket should not be public. 
 
 ***Customer Requirements:***
-Develop an S3 bucket policy that will allow the customer to host CloudFormation Quick Create links for templates stored in S3. the other objects should not be publicly accessible.
+Develop an S3 bucket policy that will allow the customer to host CloudFormation Quick Create links for templates stored in S3. the other objects should not be publicly accessible. Solution should also ensure that objects are encrypted at rest. 
 
 ### **<u>Challenge 03**
 ***
@@ -38,5 +38,9 @@ Develop a policy that will allow users to manage thier own resources in EC2, but
 ## Bonus 
 
 
-## Stack Deletion 
+## Environment Clean Up 
+- Before you delete the stack, perform the following: 
+  - Make sure that the policies are removed from the Sarah Jane Smith user. Also make sure that you disable console access for the Sarah Jane Smith user. 
+  - Remove the `index.html` from the S3 bucket. 
+
 
