@@ -22,10 +22,10 @@ Create a solution that will allow IAM users to have administrative permissions t
 
 ### **<u>Challenge 02**
 ***
-***Problem Statement:*** Customer is developing a simulated lab environment. They host a CloudFormation templates that will allow users to quickly deploy infrastrucutre to utlize. They have made sure that these templates are tagged with a key-value pair of `environment:aws-security-labs`. They want these objects to be public, but other objects in the bucket should not be public. 
+***Problem Statement:*** Customer is developing a simulated lab environment. They host a CloudFormation templates that will allow users to quickly deploy infrastructure to utlize. They have made sure that these templates are tagged with a key-value pair of `environment:aws-security-labs`. They want these objects to be public, but other objects in the bucket should not be public. 
 
 ***Customer Requirements:***
-Develop an S3 bucket policy that will allow the customer to host CloudFormation Quick Create links for templates stored in S3. the other objects should not be publicly accessible. Solution should also ensure that objects are encrypted at rest. 
+Develop an S3 bucket policy that will allow the customer to host CloudFormation Quick Create links for templates stored in S3. The other objects should not be publicly accessible.
 
 ### **<u>Challenge 03**
 ***
@@ -33,14 +33,4 @@ Develop an S3 bucket policy that will allow the customer to host CloudFormation 
 
 ***Customer Requirements:***
 Develop a policy that will allow users to manage thier own resources in EC2, but will not allow them to have access to the other instances. The customer has a small IAM department and is trying to maintain the number of IAM policies being used. Be sure to only develop ONE policy that will be applied to all users. 
-
-
-## Environment Clean Up 
-- Before you delete the stack, perform the following: 
-- Make sure that the policies are removed from the `AmeliaPond` user. Also make sure that you disable console access. 
-- Make sure you remove the `sts-assume-role` policy from the `SarahJaneSmith` user. Also make sure that you disable console access. 
-- Delete any roles or policies that you have created. 
-- Remove the `index.html` from the S3 bucket. 
-- Delete the stack
-
 
