@@ -1,5 +1,9 @@
 ## Week 04 Challenge: 
-
+### Problem statement: 
+          Customer has 4 groups that have EC2 instances in AWS. Production, Development, Testing, Application. 
+          The Production group should only be allowed to have access to the Production resources. They should not have access
+          to the Development, Testing, or Application resources. They MAY be allowed to list or see the resources, but not 
+          have access to interact with them.    
 ## Week 04 - PreReqs: 
 - Create a keypair. If you still have the keypair from last week, that will be fine. However, if you've deleted it from your machine, then you will need to create a new keypair. 
 
