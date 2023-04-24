@@ -15,7 +15,7 @@
 ## Required Instructions: 
 ### **<u>Challenge 01**
 ***
-***Problem Statement:*** The customer has an organizational requirement that all AWS IAM users shall not have privileges higher than ReadOnly for their resources (other than the root user). However, the organization does require that their engineers perform administrative actions on EC2 and S3. 
+***Problem Statement:*** The customer has an organizational requirement that all AWS IAM users shall not have privileges higher than **ReadOnly** for their resources (other than the root user). However, the organization does require that their engineers perform administrative actions on EC2 and S3. 
 
 ***Customer Requirements:***
 Create a solution that will allow IAM users to have administrative permissions to EC2 and S3. You may not modify the permissions for EC2 and S3 within the identity policy attached to the user. You have been provided the "Sarah Jane Smith" IAM user to enable a proof of concept. 
