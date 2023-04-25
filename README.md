@@ -10,5 +10,10 @@
 
 ## Week 03
 - The first challenge will involve VPC Interface Endpoints. Participants will use Interface Endpoints to create accessibility from the provisioned EC2 instances to Session Manager. 
-- The second challnge will have participants manage access from an instance in a private subnet to the S3 service. 
+- The second challenge will have participants manage access from an instance in a private subnet to the S3 service. 
 - The last challenge this week will have participants create and configure VPC Flow Logs. 
+
+## Week 04
+- The first challenge will have participants demonstrate their knowledge about AWS IAM Roles. They will create a Role that will allow users to escalate their privileges temporarily while not modifying the permissions for the user. 
+- The second challenge asks participants to develop an S3 bucket policy that will allow specific objects to be made public, while other objects in the bucket remain private. 
+- The third challenge allows pariticipants to demonstrate their knowledge on AWS identity policies with variables. They will be asked to create one policy that allows users to interact with resources that align to their tags. 
