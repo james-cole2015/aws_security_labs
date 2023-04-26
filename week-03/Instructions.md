@@ -3,66 +3,139 @@
 1) Deploy the stack 
    - Verify that the stack has completed successfully 
 
+<img width="232" alt="stack_created_step1" src="https://user-images.githubusercontent.com/129975163/234687327-28f1533b-b133-4f7a-a5d9-db69e1108a4e.png">
+
 2) Navigate to Fleet Manager and verify that the neither of the ec2 instances just created isn't yet managed. 
 
+<img width="839" alt="unmanaged_instances_step2" src="https://user-images.githubusercontent.com/129975163/234687508-1f2653ba-ac41-4247-b560-57fd1f13f442.png">
+
 3) Go to the vpc and create an endpoint by selecting "Endpoints" on the left hand menu 
+
 4) We'll create the ssm endpoint first 
    - Name the endpoint `ssm-endpoint` 
    - Make sure that AWS Services is selected
    - In the search box, search for `ssm`. Make sure you choose the correct one, it should be named `com.amazonaws.{region}.ssm`
    - Click the radio button next to it 
+   
+<img width="684" alt="ssm_step4" src="https://user-images.githubusercontent.com/129975163/234688104-09c3bb68-be65-4039-a0a3-9d33be25c95b.png">
+
    - Select the correct vpc (the one created by the stack) in the dropdown menu
    - Using the check box, select both of the subnets available, and then select the subnet id from the dropdown menu
    - Select IPv4 for IP Address Type
+
+<img width="610" alt="subnets_step4_2nd" src="https://user-images.githubusercontent.com/129975163/234688254-04d3f6f0-15f2-4e38-9f82-b41385b70f6a.png">
+
    - For Security Groups, choose the one named `endpoint-sg`
    - Leave the policy blank 
    - Click "create endpoint" and then wait for it to be in the "available status" 
+<img width="714" alt="ssm_endpoint_step4_3rd" src="https://user-images.githubusercontent.com/129975163/234688373-5e70db50-000f-4632-bcc3-5fe725712d55.png">
+
 5) Reboot the EC2 instance and wait about 5 min. 
+<img width="739" alt="reboot_step5" src="https://user-images.githubusercontent.com/129975163/234689366-cb7d5f7f-631b-4604-903a-debd9753ebb7.png">
+
 6) Navigate to Fleet Manager and confirm that the ec2 instance is now showing up as being managed. 
    *Note: it may take 5-10 minutes for this to reflect in Fleet Manager
+<img width="827" alt="managed_instances_step6" src="https://user-images.githubusercontent.com/129975163/234689524-c97e627d-c861-407d-b49e-392aaf2b4e22.png">
+
 7) Find the "Run Command" console under Systems Manager. Click the orange Run Command button. In the search box, type in `Shell` and hit enter. Select the radio button for the one named `AWS-RunShellScript`. 
+<img width="139" alt="step7" src="https://user-images.githubusercontent.com/129975163/234689618-3a249a3b-6db7-443f-8da5-af2eef8df175.png">
+<img width="671" alt="step7_2nd" src="https://user-images.githubusercontent.com/129975163/234689629-9ced1840-672c-4586-bf21-3a35867b2822.png">
+
 8) Scroll down and in the Command Parameters text box, type the following `hostname`. Under target selection, click Choose Instances manually. Select the `Week-03 Ubuntu Instance` instance. 
+<img width="664" alt="step8" src="https://user-images.githubusercontent.com/129975163/234689667-032bd587-256c-422d-b2d2-f00f9a8c5ad2.png">
+<img width="665" alt="step8_2nd" src="https://user-images.githubusercontent.com/129975163/234689675-33156cca-0f3f-4d8b-98db-aee039cb514e.png">
+
 9) Under output options, de-select "Enable an S3 bucket". Then scroll down to the bottom and hit "Run". You'll notice that this is "In Progress" but delayed. This is because while the SSM Endpoint is active, 
 it can't communicate without the `ec2-messages` endpoint. Let's configure that.
+<img width="662" alt="step9" src="https://user-images.githubusercontent.com/129975163/234689691-ed82a91d-e70c-403d-ade6-d5e3b56db263.png">
+<img width="686" alt="step9_2nd" src="https://user-images.githubusercontent.com/129975163/234689704-119c4c52-634c-46ba-9b69-38b9edb4f702.png">
+
 10) Let's cancel this command before we get the endpoint set up. Hit Cancel Command and then confirm it. 
-10) Repeat step 4 but now do it for `ec2messages`.
-11) Repeat steps 8 and 9. The command should succeed now that we've got the `ec2_messages` enabled. 
-12) Move back to the EC2 Instances screen and attempt to connect to the Ubuntu instance. Notice that the Session Manager says it's unable to connect. Why is this? We've set up the `ec2_messages` and the `ssm endpoints`. 
+<img width="478" alt="step10" src="https://user-images.githubusercontent.com/129975163/234689718-24c05abc-62fe-4f7a-af08-55c98456d8fe.png">
+<img width="681" alt="step10_confirmation" src="https://user-images.githubusercontent.com/129975163/234689767-c381893d-02d5-4646-9df1-8c6021994aee.png">
+
+11) Repeat step 4 but now do it for `ec2messages`.
+<img width="656" alt="step11" src="https://user-images.githubusercontent.com/129975163/234689786-6ed988d6-0e6c-49f1-9a2b-6c2d7acc20c0.png">
+<img width="637" alt="step11_2nd" src="https://user-images.githubusercontent.com/129975163/234689813-17853f9f-bf53-4e9d-aaa1-1041d3992fd0.png">
+<img width="650" alt="step11_3rd" src="https://user-images.githubusercontent.com/129975163/234689855-72f24a36-f820-4203-a0ac-ccfd65201fcc.png">
+<img width="636" alt="step11_4th" src="https://user-images.githubusercontent.com/129975163/234689875-e6bd42d3-b0da-4936-9b67-eb5c9d819385.png">
+<img width="719" alt="step11_confirmation" src="https://user-images.githubusercontent.com/129975163/234689905-3f803cab-913a-4481-a182-5b6f59b3c3a7.png">
+
+12) Repeat steps 7 through 9. The command should succeed now that we've got the `ec2_messages` enabled. 
+<img width="667" alt="step12" src="https://user-images.githubusercontent.com/129975163/234689929-3a3207ef-cfe2-4d93-80d5-b1353b4fa655.png">
+
+13) Move back to the EC2 Instances screen and attempt to connect to the Ubuntu instance. Notice that the Session Manager says it's unable to connect. Why is this? We've set up the `ec2_messages` and the `ssm endpoints`. 
     While this can allow Systems Manager to execute Run Commands and mange the instance, the Session Manager required the `ssm-messages` endpoint to facilitate connection. Let's set up that endpoint. 
-13) Repeat step 4, but use the `ssm-messages` instead.  
-11) Reboot the EC2 instance and wait about 5 min. 
-12) Attempt to connect to the EC2 instance by using Session Manager. You should be able to connect now. If it doesn't work right away, reboot the instance and wait about 5-10 minutes. If you're still not able to connect, check out the Reachability Analyzer. 
+<img width="728" alt="step13" src="https://user-images.githubusercontent.com/129975163/234689947-d0688b7d-1513-46d2-85b7-5e125d831157.png">
+<img width="621" alt="step13_2nd" src="https://user-images.githubusercontent.com/129975163/234689973-dcf6bd50-bc30-4c92-9b0f-0660e3514e46.png">
+
+14) Repeat step 4, but use the `ssm-messages` instead.  
+<img width="630" alt="step14" src="https://user-images.githubusercontent.com/129975163/234690015-b2e3505b-ece4-42b8-bb1b-a80c9dec495c.png">
+<img width="706" alt="step14_2nd" src="https://user-images.githubusercontent.com/129975163/234690040-ee0071bc-7860-4a50-a64c-c113ea88b8e7.png">
+
+15) Reboot the EC2 instance and wait about 5 min. 
+
+16) Attempt to connect to the EC2 instance by using Session Manager. You should be able to connect now. If it doesn't work right away, reboot the instance and wait about 5-10 minutes. If you're still not able to connect, check out the Reachability Analyzer. 
+<img width="649" alt="step16_2nd_revised" src="https://user-images.githubusercontent.com/129975163/234690121-b998a238-8e7e-4dc4-947c-dc8417cb6374.png">
+<img width="953" alt="step16_3rd" src="https://user-images.githubusercontent.com/129975163/234691229-9aa1ea07-f3a3-466d-a413-7c3cee40886f.png">
+<img width="667" alt="step16_confirm1" src="https://user-images.githubusercontent.com/129975163/234691257-3dc6c207-7750-4cab-8a32-e315b7e577b8.png">
+
 
 
 ##### Challenge 02
 1) Connect to the Amazon Linux instance and run the `aws s3 ls` command.
+
 2) The command will fail. Why? 
+
 3) Navigate to the subnet that the EC2 instance is attached to. You can view this under "Details" and "Subnet ID" 
+
 4) Select the subnet and then view the Route Table it's attached to. 
+
 5) Note the routes. There is no route from this subnet to S3. 
+
 6) Let's create another Endpoint. Navigate to VPC -> Endpoints. 
+
 7) Click Create Endpoint
+
 8) Name it `s3-endpoint` 
+
 9) Under Services, search for `s3` 
+
 10) Choose the Gateway type of Endpoint
+
 11) Choose the VPC for this week, and this time instead of subnets, we'll be looking at Route Tables. Make sure you select both Route Tables. Leave the Policy as full access for now. Add any tags and then click Create Endpoint. 
+
 12) Now navigate back to the Route Tables for the subnets and look at the Routes. Notice the difference? The Endpoint created a route in the Route Table that allows traffic from this VPC to the Gateway Endpoint. 
+
 13) Go back to the EC2 Instances, and log-in to the EC2 Instance. Run the `aws s3 ls` command again. What happens? A different error! Progress! Now we can presume that we're connected, but we're having permissions errors. How can we fix this? There's no bucket policy that needs to be evaluated because we're simply trying to list the buckets. 
+
 14) Go back to the EC2 Instances screen and select the EC2 Instance that we connected to. Click on "Security" and click on the IAM Role being used.
+
 15) Click on "Add Permissions" and choose Attach Policy. Search for `S3Read`. Click the check box and then "Add Policy". Verify that the policy was added to the Role. 
+
 16) Connect back to the EC2 Instance if you've left it already. Now try the same command: `aws s3 ls` again. If everything was set up correctly, you should get an listing of the S3 Buckets in the account. If it doesn't work immediately, give it about a minute and it should work. 
 
 ##### Challenge 03
 1) Navigate to the week-03-vpc and select the VPC 
+
 2) Select "Flow Logs" and then click "Create flow log" 
+
 3) Choose a name like `week-03-flow-logs`
+
 4) Under Maximum aggregation interval, choose 1 minute 
+
 5) For the Destination log group, choose the log group named `vpc-log-group`
+
 6) For the IAM Role, make sure you choose the `vpc-flow-logs-role` 
+
 7) You can add some tags if you like, but it's not required. 
+
 8) Click "Create flow log" and the logs will be created. 
+
 9) You'll need to wait a few minutes, as it gathers logs every minute. However, connect to the instance using Session Manager to generate some logs 
+
 10) Navigate to CloudWatch, on the left hand menu, Under Logs, click on Log Groups. Click on the created log group named `vpc-flow-logs`
+
 11) Select any of the log streams and view your logs. 
 
 ##### Reachability Analyzer
