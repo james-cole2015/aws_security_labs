@@ -102,7 +102,7 @@
 21) Log back into the console as the `AmeliaPond` user. Navigate to EC2 and you should be able to see all of the instances. Attempt to restart the Production instance. This should work now. Attempt to restart any of the other instances. It shouldn't work because the other instances have different tags than the `AmeliaPond` user. Don't close the window just yet. 
 22) Let's go back to the Admin window. Go to the IAM console --> Users. Click the `AmeliaPond`user. Go to Tags. 
 23) Click "Manage Tags" Change the value of Department from 'Production' -> 'Application'. Save changes. 
-24 Go back to the AmeliaPond window and try to restart the Application instance. This should work, but now you won't be able to restart the Production instance. 
+24) Go back to the AmeliaPond window and try to restart the Application instance. This should work, but now you won't be able to restart the Production instance. 
 
 ## Environment Clean Up 
 - Before you delete the stack, perform the following: 
