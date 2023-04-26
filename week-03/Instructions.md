@@ -84,14 +84,20 @@ it can't communicate without the `ec2-messages` endpoint. Let's configure that.
 
 ##### Challenge 02
 1) Connect to the Amazon Linux instance and run the `aws s3 ls` command.
+<img width="337" alt="challenge2_step1" src="https://user-images.githubusercontent.com/129975163/234692218-9e02106b-483a-4aab-9b3a-0d4eca1de3f1.png">
+<img width="671" alt="challenge2_step1_2nd" src="https://user-images.githubusercontent.com/129975163/234692252-d28fc63c-9fc5-436e-90ee-69ce14889f08.png">
 
 2) The command will fail. Why? 
+<img width="487" alt="challenge2_step2" src="https://user-images.githubusercontent.com/129975163/234694049-94c2457d-155f-48e2-bed3-7fb90cc1652f.png">
 
 3) Navigate to the subnet that the EC2 instance is attached to. You can view this under "Details" and "Subnet ID" 
+<img width="758" alt="challenge2_step3" src="https://user-images.githubusercontent.com/129975163/234692287-24a5428a-cf6f-4041-991a-00c4853e4d48.png">
 
 4) Select the subnet and then view the Route Table it's attached to. 
+<img width="718" alt="challenge2_step4" src="https://user-images.githubusercontent.com/129975163/234692303-399ba02b-6383-4e94-8e47-61ea1d611d0c.png">
 
 5) Note the routes. There is no route from this subnet to S3. 
+<img width="695" alt="challenge2_step5" src="https://user-images.githubusercontent.com/129975163/234692318-ae8a79b5-84d9-4c09-bef8-4a302fd1cc99.png">
 
 6) Let's create another Endpoint. Navigate to VPC -> Endpoints. 
 
@@ -102,18 +108,28 @@ it can't communicate without the `ec2-messages` endpoint. Let's configure that.
 9) Under Services, search for `s3` 
 
 10) Choose the Gateway type of Endpoint
+<img width="638" alt="challenge2_step10" src="https://user-images.githubusercontent.com/129975163/234692393-97a0f47a-a70b-43ca-a29c-2c825589c153.png">
 
 11) Choose the VPC for this week, and this time instead of subnets, we'll be looking at Route Tables. Make sure you select both Route Tables. Leave the Policy as full access for now. Add any tags and then click Create Endpoint. 
 
 12) Now navigate back to the Route Tables for the subnets and look at the Routes. Notice the difference? The Endpoint created a route in the Route Table that allows traffic from this VPC to the Gateway Endpoint. 
+<img width="742" alt="challenge2_step12" src="https://user-images.githubusercontent.com/129975163/234692411-20d9a7aa-aca7-450f-86e9-9d9e9c12b5fd.png">
+<img width="695" alt="challenge2_step12_2nd" src="https://user-images.githubusercontent.com/129975163/234692430-01f2433b-8cc9-4315-a4aa-35ec20bbee72.png">
 
 13) Go back to the EC2 Instances, and log-in to the EC2 Instance. Run the `aws s3 ls` command again. What happens? A different error! Progress! Now we can presume that we're connected, but we're having permissions errors. How can we fix this? There's no bucket policy that needs to be evaluated because we're simply trying to list the buckets. 
+<img width="920" alt="challenge2_step13" src="https://user-images.githubusercontent.com/129975163/234694076-65b9c3f7-a991-4818-bda0-1e03adf0e48e.png">
 
 14) Go back to the EC2 Instances screen and select the EC2 Instance that we connected to. Click on "Security" and click on the IAM Role being used.
+<img width="731" alt="challenge2_step14" src="https://user-images.githubusercontent.com/129975163/234692512-9c3a09be-759c-4eb4-9a0b-74a075d61d14.png">
 
-15) Click on "Add Permissions" and choose Attach Policy. Search for `S3Read`. Click the check box and then "Add Policy". Verify that the policy was added to the Role. 
+15) Click on "Add Permissions" and choose Attach Policy. Search for `S3Read`. Click the check box and then "Add Policy". Verify that the policy was added to the Role.
+<img width="883" alt="challenge2_step15" src="https://user-images.githubusercontent.com/129975163/234692526-629950f9-193f-4896-b62f-5793498aee64.png">
+<img width="833" alt="challenge2_step15_2nd" src="https://user-images.githubusercontent.com/129975163/234692562-0c9c7180-0bc5-4bb9-9ede-335b072c336a.png">
+<img width="643" alt="challenge2_step15_3rd" src="https://user-images.githubusercontent.com/129975163/234692574-09933dbb-f270-4136-af68-d4548b786f05.png">
+
 
 16) Connect back to the EC2 Instance if you've left it already. Now try the same command: `aws s3 ls` again. If everything was set up correctly, you should get an listing of the S3 Buckets in the account. If it doesn't work immediately, give it about a minute and it should work. 
+<img width="378" alt="challenge2_step16" src="https://user-images.githubusercontent.com/129975163/234692580-cf73ffed-2f15-4c10-b9dc-567855e16156.png">
 
 ##### Challenge 03
 1) Navigate to the week-03-vpc and select the VPC 
