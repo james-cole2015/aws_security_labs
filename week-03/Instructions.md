@@ -133,6 +133,7 @@ it can't communicate without the `ec2-messages` endpoint. Let's configure that.
 
 ##### Challenge 03
 1) Navigate to the week-03-vpc and select the VPC 
+<img width="708" alt="challenge3_step1" src="https://user-images.githubusercontent.com/129975163/234694502-b673e3c2-993e-460d-b3cc-9bcc64591ce2.png">
 
 2) Select "Flow Logs" and then click "Create flow log" 
 
@@ -145,6 +146,7 @@ it can't communicate without the `ec2-messages` endpoint. Let's configure that.
 6) For the IAM Role, make sure you choose the `vpc-flow-logs-role` 
 
 7) You can add some tags if you like, but it's not required. 
+<img width="652" alt="challenge3_step3-7" src="https://user-images.githubusercontent.com/129975163/234694523-998e5975-0295-4c3f-b882-d3d5c12bae3b.png">
 
 8) Click "Create flow log" and the logs will be created. 
 
@@ -153,6 +155,8 @@ it can't communicate without the `ec2-messages` endpoint. Let's configure that.
 10) Navigate to CloudWatch, on the left hand menu, Under Logs, click on Log Groups. Click on the created log group named `vpc-flow-logs`
 
 11) Select any of the log streams and view your logs. 
+<img width="908" alt="challenge3_step11" src="https://user-images.githubusercontent.com/129975163/234694589-b174fdfb-2abb-4a94-8a81-c74a3e615e1d.png">
+<img width="704" alt="challenge3_step11_2nd" src="https://user-images.githubusercontent.com/129975163/234694608-71abdaa7-ca66-4654-84bc-4af481242c71.png">
 
 ##### Reachability Analyzer
 If you're having issues completing the labs, please utilize the VPC Reachability Analyzer. This will test the network connectivity between two points (in this case, between the instance that was created and the endpoint we created). This is a good way of determining if you IAM permission issues or network issues. 
@@ -165,10 +169,13 @@ If you're having issues completing the labs, please utilize the VPC Reachability
 7) Scroll down and click "Create and analyze path" 
 8) Give it a few minutes and it will determine if there is connectivity between the two points. It will analyze any NACLs and Security Groups that will prevent or allow access. 
 9) After it's complete, it will let you know if it's Reachable or Not Reachable. If it's not reachable, it will tell you why in the Path Details.
+<img width="641" alt="reachability_analyzer" src="https://user-images.githubusercontent.com/129975163/234694621-b05857f7-6213-4a1f-b241-cccc2f014483.png">
 
 ##### Clean Up
-1) Make sure to delete all of the endpoints that have been created. 
+1) Delete all of the endpoints that have been created. 
    - This may take a few minutes. 
-2) Delete the vpc-flow-logs group
-3) After the endpoints are deleted, make sure to delete the stack. 
+2) Delete the vpc-flow-logs group.
+3) Check the VPC dashboard to see if any other resources need to be deleted.
+4) After the endpoints are deleted, make sure to delete the stack in CloudFormation. 
+5) Double check that the ec2 instances have been terminated.
 
