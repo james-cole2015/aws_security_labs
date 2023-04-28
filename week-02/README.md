@@ -11,7 +11,7 @@
 - A random number to make the S3 bucket unique. If it's not the CloudFormation template will fail. 
 - Building on last week, the security group provided **DOES NOT** provide ssh access. Either add it in yourself, or use the Session Manager to log into the EC2 instance. 
 ## How To Execute CloudFormation Template:
-[CloudFormation Quick Create Link](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://aws-security-labs.s3.amazonaws.com/week-02-cloudformation-template/week-02.yml&stackName=week-02-stack)
+[CloudFormation Quick Create Link](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://aws-security-labs.s3.amazonaws.com/week-02-cloudformation-template.yml&stackName=week-02-stack)
 1. Click the link above.
 2. Type a random number
 3. Select a keypair
