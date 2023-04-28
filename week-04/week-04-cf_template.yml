@@ -13,7 +13,11 @@ Resources:
     Type: "AWS::S3::Bucket"
     Properties:
       BucketName: !Sub "week-04-bucket00-${RandomNumber}"
-      AccessControl: "PublicRead"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
 ############ Network Infrastructure ############
   VPC:
     Type: AWS::EC2::VPC
