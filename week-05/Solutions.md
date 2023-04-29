@@ -72,34 +72,45 @@ make sure to use .pem not .ppk
     - VPC = `week-05-vpc`
     - Click "Create network ACL" 
 04) Repeat Step 03, but give it a name of `week-05-protected-acl`
-05) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Inbound Rules" 
-06) Add the following rules: 
-    a) Rule number = 100
-    b) Type = SSH 
-    c) Source = <your IP with a CIDR block of /16. E.g., if your IP is '17.222.133.18', enter '17.222.133.18/16'>. 
-        1) This is meant to simulate a corporate environment CIDR range. You can visit: https://whatismyipaddress.com/ to get your IP address. 
-    d) Allow/Deny = Allow
 
-    a) Rule # = 120
-    b) Type = HTTPS
-    c) Source = "0.0.0.0/0"
-    d) Allow/Deny = Allow
+05) Let's make sure we associate this with the subnet so that it's attached. Select the `week-05-firewall-acl` and click the Actions dropdown and hit "edit subnet associations". Click the checkbox for the "Firewall Subnet" and then hit Save changes. 
+06) Try to SSH into the `Bastion Host`. Does it work? It fails because we've attached a NACL to the subnet, but the only rule in the NACL is to deny all traffic. Nothing gets in, nothing gets out. Let's create some rules to allow connectivity. 
 
-    a) Rule # = 130
-    b) Type = All ICMP - IPv4
-    c) Source = <your IP with a CIDR block of /16. E.g., if your IP is '17.222.133.18', enter '17.222.133.18/16'>. 
-    d) Allow/Deny = Allow
-
-    e) Click saves changes. 
-
-07) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Outbound Rules" 
+07) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Inbound Rules" 
 08) Add the following rules: 
-    a) 
 
+    a) Rule = 80, Type = HTTP, Source = 0.0.0.0/0, Allow
+    b) Rule = 100, Type = SSH, Source = <your IP/16>, Allow
+    c) Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow 
+    e) Rule = 140, Type = Custom TCP, Port Range = 32768-65535, Allow
 
+    - Click saves changes. 
 
+09) Ok, now that we've set up some rules, let's try to SSH into the EC2 instance again. Ok, it still fails. Why? We've set up some rules, but we're still not getting connectivity. Well, the defining feature about NACLs is that they are stateless. This means that they don't care how traffic got in or out of the network, it needs a specific rule that allows it in or out. Unlike Security groups that are Stateful and will allow traffic out if the traffic is allowed in, NACLs are much more specific. To this end, we'll need to set up outbound rules that permit communication between the host and the ec2 instance. 
+
+09) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Outbound Rules" 
+10) Add the following rules: 
+    a) Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
+    b) Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
+    c) Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
+    d) Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow
+    - Click Save changes. 
+
+11) Now we need to make sure we do the same thing for the `week-05-protected-acl`. Let's add the following inbound rules: 
+    a) Rule = 100, Type = HTTPS, Source = 0.0.0.0/0, Allow
+    b) Rule = 120, Type = SSH, Source = < CIDR of `Firewall subnet` >, Allow
+    c) Rule = 130, Type = HTTP, Source = 0.0.0.0/0, Allow
+    e) Rule = 150, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow 
+
+12) Add some outbound rules to `week-05-protected-acl`: 
+    a) Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
+    b) Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
+    c) Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
+    d) Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = < CIDR of `Firewall subnet` >, Allow
 
 Environment Clean Up: 
+***
 - Terminate all of the EC2 instances 
 - Delete all of the created security groups
+- Delete all of the NACLs
 - Delete the `week-05-kp`
