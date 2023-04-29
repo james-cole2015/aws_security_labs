@@ -7,7 +7,7 @@
 [Week 05 CloudFormation Quick Create Link](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://aws-security-labs.s3.amazonaws.com/week-05-cf_template.yml&stackName=week-05-stack)
 1. Click the link above.
 2. Click "Create Stack"
-3. Wait for the stack to say "create complete". This will create the resources and associations listed below.
+3. Wait for the stack to say "create complete". This will create the resources required for the challenge. 
 
 ## Required Instructions: 
 ### **<u>Challenge 01**
