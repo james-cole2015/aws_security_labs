@@ -14,6 +14,7 @@
 ***
 ***Problem Statement:*** 
 Your client has acquired a small start up that has doesn't have a very large AWS footprint. As such they are a bit unfamiliar with security groups. You've been asked to develop and implement security group rules that align with the principle of least privilege. 
+
 ***Customer Requirements:***
 Develop security group rules that allows onlys ssh access from the corporate CIDR range to the bastion host. Additionally, there is a protected instance that serves as an application server. That server should only be allowed to have ssh access from the bastion host. 
 
@@ -21,5 +22,6 @@ Develop security group rules that allows onlys ssh access from the corporate CID
 ***
 ***Problem Statement:*** 
 After awhile, the customer has realized that admins are free to stand up instances in the VPC that don't have the security group requirements. Access controls need to be applied at the subnet level. The customer already has in place configurations that force developers to launch instances into a specific subnet. However, they don't want to force developers to use a specific subnet. Develop and implement a solution that will control access at the subnet level. 
+
 ***Customer Requirements:***
 The customer wants you to use the same subnets that you worked on earlier with the security groups. They want to see a proof of concept before moving forward with the broader work in their environment. 
