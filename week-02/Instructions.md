@@ -46,12 +46,18 @@
 <img width="570" alt="challenge2_step5" src="https://user-images.githubusercontent.com/129975163/236010062-906175d6-9e33-4b1f-b9d4-c653d68be4ab.png">
 
 6) Run the wizard -> `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard`
+<img width="709" alt="challenge2_wizard1" src="https://user-images.githubusercontent.com/129975163/236017949-324e6f22-99a3-4d33-bb3f-00b4ebd515e9.png">
 
 7) Run through the wizard choosing all the defaults except for CollectD. 
+<img width="751" alt="challenge2_wizard2" src="https://user-images.githubusercontent.com/129975163/236017964-1f2e0c95-9bbf-44f3-ba00-97730e45c69c.png">
 
-8) After verifying the config set up, it will ask if you want to collect any log files. Choose yes and then add the location of the first log file you want to monitor. Run through the defaults until it asks if you have any additional logs to monitor. Complete this until finish adding all the logs you wish to monitor. 
+8) After verifying the config set up, it will ask if you want to collect any log files. Choose yes and then add the location of the first log file you want to monitor. Run through the defaults until it asks if you have any additional logs to monitor. Complete this until finish adding all the logs you wish to monitor. (Note: Paths are in README - 3 paths)
+<img width="386" alt="challenge2_wizard3" src="https://user-images.githubusercontent.com/129975163/236018195-97692215-0489-419c-ae03-d068492fd219.png">
+<img width="430" alt="challenge2_wizard4" src="https://user-images.githubusercontent.com/129975163/236018240-53cfc9df-3696-4068-91e1-727e8eb45992.png">
+<img width="391" alt="challenge2_wizard5" src="https://user-images.githubusercontent.com/129975163/236018255-beb54d53-6638-4548-872f-9631040fa308.png">
 
 9) After you've finished add the logs, it will ask you if you want to store in the Parameter store and which credentials to use. Choose all the defaults and eventually the wizard will finish and exit. 
+<img width="557" alt="challenge2_wizard6" src="https://user-images.githubusercontent.com/129975163/236018280-23f91e2c-e918-4ce2-95b8-9bb267c98da0.png">
 
 10) Start the CloudWatch logs by running the following command -> `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c ssm:AmazonCloudWatch-linux -s`. This is going to start the agent by retrieving the config that was stored in the Parameter Store. It will create the CloudWatch Log Groups and start the monitoring. 
 <img width="914" alt="challenge2_step10" src="https://user-images.githubusercontent.com/129975163/236010100-c1048080-e9aa-4cc7-ba1f-3b733ea39b9f.png">
