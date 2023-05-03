@@ -67,7 +67,7 @@
 <img width="335" alt="challenge2_step11_2nd" src="https://user-images.githubusercontent.com/129975163/236010129-7a30ca1b-a2dc-4789-b80d-32bb853c579d.png">
 
 12) Navigate to CloudWatch and then click on "Log Groups" once you're there you will see the `access log` and the `totally_real_logs` groups. Click into any of them to view the logs that were retrieved. 
-<img width="659" alt="challenge2_step12" src="https://user-images.githubusercontent.com/129975163/236017756-85761130-bf86-4c3f-8f98-a7746ac49893.png">
+<img width="885" alt="Screenshot 2023-05-03 103059" src="https://user-images.githubusercontent.com/129975163/236018839-7e83f1a4-bf87-43da-af64-ef45f54517af.png">
 
 ###### Clean up
 1) In the Log Groups window, go to Action -> Delete log group(s)
