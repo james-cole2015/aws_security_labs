@@ -89,7 +89,7 @@ make sure to use .pem not .ppk
 10) Add the following rules: 
     - Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
     - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
-    - Rule = 130, Type = SSH, Source = <your IP/16>, Allow
+    - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
     - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow
     - Click Save changes. 
 
