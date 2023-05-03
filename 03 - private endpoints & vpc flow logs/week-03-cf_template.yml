@@ -1,0 +1,211 @@
+Parameters:
+  KeyName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Description: Name of an existing EC2 KeyPair for SSH access
+  RandomNumber:
+    Type: "Number"
+    Description: "A random number used to generate unique bucket names"
+
+Resources:
+  Week03Bucket00:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "week-03-bucket00-${RandomNumber}"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: '10.0.0.0/16'
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags: 
+        - Key: Name
+          Value: week-03-vpc
+  
+  PrivateSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: '10.0.1.0/24'
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-subnet-1'
+  
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: '10.0.2.0/24'
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-subnet-2'
+  
+  PrivateRouteTable1:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-route-table-1'
+  
+  PrivateRouteTable2:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: 'Name'
+          Value: 'week-03-route-table-2'
+  
+  PrivateSubnet1RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable1
+  
+  PrivateSubnet2RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable2
+## this role allows the ec2 instance to have ssm permissions 
+  SessionManagerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: SessionManagerRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+
+## This allows https traffic from the vpc to the endpoints 
+  EndpointSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: endpoint-sg
+      GroupDescription: Security group for endpoint access
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 10.0.0.0/16
+#this allows traffic from the ec2 instance to the endpoints 
+  EC2EndpointSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTPS from endpoint SG
+      GroupName: ec2-instance-sg
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref EndpointSecurityGroup
+
+## Instance for Challenge 1 and 2
+  RHEL9Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-0aa2b7722dc1b5612' # Ubuntu 20.04
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !Ref KeyName 
+      Tags:
+        - Key: Name
+          Value: Week-03 Ubuntu Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-03
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet1
+          GroupSet:
+            - !Ref EC2EndpointSG
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: my-instance-profile
+      Roles:
+        - !Ref SessionManagerRole
+
+  Linux2AMIInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-06e46074ae430fba6' # Linux 2 AMI
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !Ref KeyName 
+      Tags:
+        - Key: Name
+          Value: Week-03 Amazon Linux Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-03
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet1
+          GroupSet:
+            - !Ref EC2EndpointSG
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: my-instance-profile
+      Roles:
+        - !Ref SessionManagerRole' 
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !Ref KeyName 
+      Tags:
+        - Key: Name
+          Value: Week-03 RHEL Instance
+        - Key: platform 
+          Value: aws_security_labs
+        - Key: Week
+          Value: week-03
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet1
+          GroupSet:
+            - !Ref EC2EndpointSG
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: my-instance-profile
+      Roles:
+        - !Ref SessionManagerRole
+
+
+## creating cloudwatch log group
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: vpc-flow-logs
+
+## creating the cloudwatch logs role
+  VpcFlowLogsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: vpc-flow-logs-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: vpc-flow-logs.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
