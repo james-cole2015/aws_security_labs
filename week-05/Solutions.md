@@ -41,7 +41,7 @@ make sure to use .pem not .ppk
     -  Choose Ubuntu 20.04. Make sure it's this AMI ID: `ami-0aa2b7722dc1b5612`
     - Pick the `week-05-kp`
     - Edit the network settings and make sure you're using the `week-05-vpc`. Choose the `Firewall` subnet. 
-    - make sure the "Auto-assign public IP" is enabled. 
+    - Make sure the "Auto-assign public IP" is enabled. 
     - For security groups, choose "Select existing security group". A dropdown will appear, choose the `bastion-host-sg` 
     - Click the orange "Launch Instance" button on the right. 
 11) Now we'll create an EC2 instance inside the Protected Subnet. 
@@ -62,7 +62,7 @@ make sure to use .pem not .ppk
 18) Now, when you move back to your `Bastion Host` instance, you should run the `ll` command in the home directory and you should see the `week-05-kp.pem` listed. Now you should be able to repeat step 13 again and try to log into the `Protected Instance` again. This time it should work.
 19) Leave the instances and security groups running as we'll need them for the next lab. 
 
-*** Challenge 2 Solutions: 
+## Challenge 2 Solutions: 
 01) Navigate to VPC Console -> Security -> Network ACLs
 02) Click the orange "Create network ACL"
 03) Give it a name of `week-05-firewall-acl`
@@ -77,7 +77,7 @@ make sure to use .pem not .ppk
 08) Add the following rules: 
 
     - Rule = 80, Type = HTTP, Source = 0.0.0.0/0, Allow
-    - Rule = 100, Type = SSH, Source = <your IP/16>, Allow
+    - Rule = 100, Type = SSH, Source = <your IP/16>, Allow --> See note at bottom. 
     - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow 
     - Rule = 140, Type = Custom TCP, Port Range = 32768-65535, Allow
 
@@ -89,7 +89,7 @@ make sure to use .pem not .ppk
 10) Add the following rules: 
     - Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
     - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
-    - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
+    - Rule = 130, Type = SSH, Source = <your IP/16>, Allow
     - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow
     - Click Save changes. 
 
@@ -104,6 +104,8 @@ make sure to use .pem not .ppk
     - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
     - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
     - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = < CIDR of `Firewall subnet` >, Allow
+
+<< For this exercise, we need to simulate a corporate IP, since we don't really have a corporate IP that we can play around with for this challenge. So, you can take your IP (google "what's my IP") and then remove the last two octets. So if your IP is 63.36.236.125, then you will add 63.36.0.0/16 as your "corporate CIDR". This is not exactly security best practice because this will allow a vast amount of IPv4 into the EC2 instance, but this is just meant to simulate a corporate environment in which only a specific set of IP addresses will be allowed into an ec2 instance >> 
 
 Environment Clean Up: 
 ***
