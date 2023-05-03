@@ -39,19 +39,19 @@ make sure to use .pem not .ppk
 10) Now we're ready to test this implementation. Let's create an EC2 instance. Go to the EC2 Console and click the orange "Launch Instance" button. 
     -  Name the EC2 instance `Bastion Host`
     -  Choose Ubuntu 20.04. Make sure it's this AMI ID: `ami-0aa2b7722dc1b5612`
-    c) Pick the `week-05-kp`
-    d) Edit the network settings and make sure you're using the `week-05-vpc`. Choose the `Firewall` subnet. 
-    e) make sure the "Auto-assign public IP" is enabled. 
-    e) For security groups, choose "Select existing security group". A dropdown will appear, choose the `bastion-host-sg` 
-    f) Click the orange "Launch Instance" button on the right. 
+    - Pick the `week-05-kp`
+    - Edit the network settings and make sure you're using the `week-05-vpc`. Choose the `Firewall` subnet. 
+    - make sure the "Auto-assign public IP" is enabled. 
+    - For security groups, choose "Select existing security group". A dropdown will appear, choose the `bastion-host-sg` 
+    - Click the orange "Launch Instance" button on the right. 
 11) Now we'll create an EC2 instance inside the Protected Subnet. 
-    a) Name the EC2 instance `Protected Instance`
-    b) Choose Ubuntu 20.04. Make sure it's this AMI ID: `ami-0aa2b7722dc1b5612`
-    c) Pick the `week-05-kp`
-    d) Edit the network settings and make sure you're using the `week-05-vpc`. Choose the `Protected` subnet. 
-    e) Make sure that "Auto-assign public IP" is disabled.
-    e) For security groups, choose "Select existing security group". A dropdown will appear, choose the `protected-sg`
-    f) Click the orange "Launch Instance" button on the right. 
+    - Name the EC2 instance `Protected Instance`
+    - Choose Ubuntu 20.04. Make sure it's this AMI ID: `ami-0aa2b7722dc1b5612`
+    - Pick the `week-05-kp`
+    - Edit the network settings and make sure you're using the `week-05-vpc`. Choose the `Protected` subnet. 
+    - Make sure that "Auto-assign public IP" is disabled.
+    - For security groups, choose "Select existing security group". A dropdown will appear, choose the `protected-sg`
+    - Click the orange "Launch Instance" button on the right. 
 12) Let's wait until both are in a running state and both are 2/2 for status check. 
 13) Note the Public DNS name for the `bastion-host` instance. 
 13) Let's test the security groups for the `Firewall` subnet first. Try to establish an ssh session with the `Bastion Host` instance. Move to the EC2 Console -> Instance. Click the checkbox next to the `Bastion Host` and then click `Connect` over on the right hand side. Follow the instructions for connecting to the EC2 instance using an SSH Client. 
@@ -76,10 +76,10 @@ make sure to use .pem not .ppk
 07) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Inbound Rules" 
 08) Add the following rules: 
 
-    a) Rule = 80, Type = HTTP, Source = 0.0.0.0/0, Allow
-    b) Rule = 100, Type = SSH, Source = <your IP/16>, Allow
-    c) Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow 
-    e) Rule = 140, Type = Custom TCP, Port Range = 32768-65535, Allow
+    - Rule = 80, Type = HTTP, Source = 0.0.0.0/0, Allow
+    - Rule = 100, Type = SSH, Source = <your IP/16>, Allow
+    - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow 
+    - Rule = 140, Type = Custom TCP, Port Range = 32768-65535, Allow
 
     - Click saves changes. 
 
@@ -87,23 +87,23 @@ make sure to use .pem not .ppk
 
 09) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Outbound Rules" 
 10) Add the following rules: 
-    a) Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
-    b) Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
-    c) Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
-    d) Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow
+    - Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
+    - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
+    - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
+    - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow
     - Click Save changes. 
 
 11) Now we need to make sure we do the same thing for the `week-05-protected-acl`. Let's add the following inbound rules: 
-    a) Rule = 100, Type = HTTPS, Source = 0.0.0.0/0, Allow
-    b) Rule = 120, Type = SSH, Source = < CIDR of `Firewall subnet` >, Allow
-    c) Rule = 130, Type = HTTP, Source = 0.0.0.0/0, Allow
-    e) Rule = 150, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow 
+    - Rule = 100, Type = HTTPS, Source = 0.0.0.0/0, Allow
+    - Rule = 120, Type = SSH, Source = < CIDR of `Firewall subnet` >, Allow
+    - Rule = 130, Type = HTTP, Source = 0.0.0.0/0, Allow
+    - Rule = 150, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow 
 
 12) Add some outbound rules to `week-05-protected-acl`: 
-    a) Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
-    b) Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
-    c) Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
-    d) Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = < CIDR of `Firewall subnet` >, Allow
+    - Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
+    - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
+    - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
+    - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = < CIDR of `Firewall subnet` >, Allow
 
 Environment Clean Up: 
 ***
