@@ -31,14 +31,14 @@ Challenges:
 09) Remove the VPC that's pre-populated and make sure the select the VPC named `week-05-vpc`
     a) Type = SSH
     b) Source = Custom
-        1) in the CIDR Block text field, type in `bastion-host-sg`. The security group should pre-populate - click it and then add `allows ssh from bastion-host-sg` as a  description to the security group. 
+        - In the CIDR Block text field, type in `bastion-host-sg`. The security group should pre-populate - click it and then add `allows ssh from bastion-host-sg` as a  description to the security group. 
     c) scroll down and click "Create security group" 
 10) Navigate to the EC2 console -> Key pairs.
 09) Create a keypair and name it `week-05-kp`.
 make sure to use .pem not .ppk
-10) Now we're ready to test this implementation. Let's create an EC2 instance. Go to the EC2 Console and click the orange "Launch Instance" button. . 
-    a) Name the EC2 instance `Bastion Host`
-    b) Choose Ubuntu 20.04. Make sure it's this AMI ID: `ami-0aa2b7722dc1b5612`
+10) Now we're ready to test this implementation. Let's create an EC2 instance. Go to the EC2 Console and click the orange "Launch Instance" button. 
+    -  Name the EC2 instance `Bastion Host`
+    -  Choose Ubuntu 20.04. Make sure it's this AMI ID: `ami-0aa2b7722dc1b5612`
     c) Pick the `week-05-kp`
     d) Edit the network settings and make sure you're using the `week-05-vpc`. Choose the `Firewall` subnet. 
     e) make sure the "Auto-assign public IP" is enabled. 
