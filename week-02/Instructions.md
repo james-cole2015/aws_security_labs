@@ -30,17 +30,39 @@
 1) Go into the S3 bucket that was created from CloudFormation and delete the `mock-data` file. 
 ##### Challenge 02
 1) Log into the EC2 server and install the Unified CloudWatch Agent
+<img width="719" alt="challenge2_step1" src="https://user-images.githubusercontent.com/129975163/236009994-cfcb515e-375f-496a-a4ff-32a120c8075f.png">
+<img width="647" alt="challenge2_step1_2nd" src="https://user-images.githubusercontent.com/129975163/236010006-8de111b0-be4d-4d3e-a908-846a2c918e57.png">
+
 2) Ensure that wget is installed by executing `which wget`. If you get a return of a directory location, it's installed. If not, make sure you install wget on the server. 
+<img width="131" alt="challenge2_step2" src="https://user-images.githubusercontent.com/129975163/236010018-bbcd6894-dbdb-4929-9c5b-9b787414abf3.png">
+
 3) Change into the ec2-user `sudo su ec2-user` and make sure you're in the home directory `cd $HOME`
-3) Download the Unified CloudWatch Agent -> `wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm`
-4) Install the agent -> `sudo rpm -U ./amazon-cloudwatch-agent.rpm`
-5) Run the wizard -> `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard`
-6) Run through the wizard choosing all the defaults except for CollectD. 
-7) After verifying the config set up, it will ask if you want to collect any log files. Choose yes and then add the location of the first log file you want to monitor. Run through the defaults until it asks if you have any additional logs to monitor. Complete this until finish adding all the logs you wish to monitor. 
-8) After you've finished add the logs, it will ask you if you want to store in the Parameter store and which credentials to use. Choose all the defaults and eventually the wizard will finish and exit. 
-9) Start the CloudWatch logs by running the following command -> `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c ssm:AmazonCloudWatch-linux -s`. This is going to start the agent by retrieving the config that was stored in the Parameter Store. It will create the CloudWatch Log Groups and start the monitoring. 
-10) Once this complete, navigate to the public ip of the EC2 instance that was created, and just hit refresh a few times. 
-11) Navigate to CloudWatch and then click on "Log Groups" once you're there you will see the `access log` and the `totally_real_logs` groups. Click into any of them to view the logs that were retrieved. 
+<img width="263" alt="challenge2_step3" src="https://user-images.githubusercontent.com/129975163/236010037-bf45c159-0d12-4320-a4f1-ff49ca2f9261.png">
+
+4) Download the Unified CloudWatch Agent -> `wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm`
+<img width="896" alt="challenge2_step4" src="https://user-images.githubusercontent.com/129975163/236010049-c0c7e60a-1992-4eb0-af10-1a70ac8cf5b4.png">
+
+5) Install the agent -> `sudo rpm -U ./amazon-cloudwatch-agent.rpm`
+<img width="570" alt="challenge2_step5" src="https://user-images.githubusercontent.com/129975163/236010062-906175d6-9e33-4b1f-b9d4-c653d68be4ab.png">
+
+6) Run the wizard -> `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard`
+
+7) Run through the wizard choosing all the defaults except for CollectD. 
+
+8) After verifying the config set up, it will ask if you want to collect any log files. Choose yes and then add the location of the first log file you want to monitor. Run through the defaults until it asks if you have any additional logs to monitor. Complete this until finish adding all the logs you wish to monitor. 
+
+9) After you've finished add the logs, it will ask you if you want to store in the Parameter store and which credentials to use. Choose all the defaults and eventually the wizard will finish and exit. 
+
+10) Start the CloudWatch logs by running the following command -> `sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c ssm:AmazonCloudWatch-linux -s`. This is going to start the agent by retrieving the config that was stored in the Parameter Store. It will create the CloudWatch Log Groups and start the monitoring. 
+<img width="914" alt="challenge2_step10" src="https://user-images.githubusercontent.com/129975163/236010100-c1048080-e9aa-4cc7-ba1f-3b733ea39b9f.png">
+
+11) Once this complete, navigate to the public ip of the EC2 instance that was created, and just hit refresh a few times. 
+<img width="714" alt="challenge2_step11" src="https://user-images.githubusercontent.com/129975163/236010117-6a29f447-6674-4719-9e17-2d509df57952.png">
+<img width="335" alt="challenge2_step11_2nd" src="https://user-images.githubusercontent.com/129975163/236010129-7a30ca1b-a2dc-4789-b80d-32bb853c579d.png">
+
+12) Navigate to CloudWatch and then click on "Log Groups" once you're there you will see the `access log` and the `totally_real_logs` groups. Click into any of them to view the logs that were retrieved. 
+<img width="659" alt="challenge2_step12" src="https://user-images.githubusercontent.com/129975163/236017756-85761130-bf86-4c3f-8f98-a7746ac49893.png">
+
 ###### Clean up
 1) In the Log Groups window, go to Action -> Delete log group(s)
 2) Move to CloudFormation and Delete the Stack. 
