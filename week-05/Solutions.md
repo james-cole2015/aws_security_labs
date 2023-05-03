@@ -105,7 +105,7 @@ make sure to use .pem not .ppk
     - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
     - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = < CIDR of `Firewall subnet` >, Allow
 
-<< For this exercise, we need to simulate a corporate IP, since we don't really have a corporate IP that we can play around with for this challenge. So, you can take your IP (google "what's my IP") and then remove the last two octets. So if your IP is 63.36.236.125, then you will add 63.36.0.0/16 as your "corporate CIDR". This is not exactly security best practice because this will allow a vast amount of IPv4 into the EC2 instance, but this is just meant to simulate a corporate environment in which only a specific set of IP addresses will be allowed into an ec2 instance >> 
+<< *For this exercise, we need to simulate a corporate IP, since we don't really have a corporate IP that we can play around with for this challenge. So, you can take your IP (google "what's my IP") and then remove the last two octets. So if your IP is 63.36.236.125, then you will add 63.36.0.0/16 as your "corporate CIDR". This is not exactly security best practice because this will allow a vast amount of IPv4 into the EC2 instance, but this is just meant to simulate a corporate environment in which only a specific set of IP addresses will be allowed into an ec2 instance* >> 
 
 ## Environment Clean Up: 
 ***
