@@ -1,0 +1,96 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  ChallengeLabsVPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      CidrBlock: "10.0.0.0/16"
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: "Name"
+          Value: "challenge-labs-vpc"
+        - Key: "environment"
+          Value: "aws-security-labs"
+
+  PublicSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref ChallengeLabsVPC
+      CidrBlock: "10.0.1.0/24"
+      AvailabilityZone: "us-east-1a"
+      Tags:
+        - Key: "Name"
+          Value: "public-sn-challenge-labs"
+        - Key: "environment"
+          Value: "aws-security-labs"
+
+  PrivateSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref ChallengeLabsVPC
+      CidrBlock: "10.0.2.0/24"
+      AvailabilityZone: "us-east-1a"
+      Tags:
+        - Key: "Name"
+          Value: "private-sn-challenge-labs"
+        - Key: "environment"
+          Value: "aws-security-labs"
+
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+    Properties:
+      Tags:
+        - Key: "Name"
+          Value: "challenge-labs-igw"
+
+  VPCGatewayAttachment:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId: !Ref ChallengeLabsVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref ChallengeLabsVPC
+      Tags:
+        - Key: "Name"
+          Value: "public-sn-challenge-labs-rt"
+
+  PublicSubnetRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicSubnetRouteTable
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicSubnetRouteTable
+
+
+  SSMInstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      InstanceProfileName: "SSMInstanceProfile"
+      Roles:
+        - !Ref ChallengeLabEC2Role
+
+  ChallengeLabEC2Role:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "Challenge-Lab-EC2-Role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "ec2.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Path: "/"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
