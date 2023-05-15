@@ -2,13 +2,29 @@
 ***
 #### Enabling Console Access 
 1) Navigate to the IAM Console and select Users from the menu on the left side. Find the SarahJaneSmith user. Click on the user and then find the "Security Credentials" 
+
 2) Click the "Enable console access" under the "Console sign-in" section. 
+<img width="857" alt="step2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/dc487a38-001a-4148-8158-8345d8baca30">
+
 3) Click the "Enable" button. For the password, choose a custom password. Give the user a password. Make sure to remember it.
+<img width="460" alt="step3" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/294e93c8-69ef-4f31-9ddd-dd40f4bbd567">
+
 4) Be sure the checkbox for user must create new password at next sign-in is DISABLED. Click apply. Download the password csv if you need it. 
+<img width="465" alt="step4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/bae7f086-b297-4ecf-8cac-bf42f1f48608">
+
 5) Copy the console sign-in link into a text editor of your choice. 
+<img width="637" alt="step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/4210e8b6-6baf-4834-9e02-0902ab937b81">
+
 6) Using a different browser, or a private browser, use the link for the console sign-in. Enter the IAM user name and the password you created. The account number should be auto-filled. 
-7) Login and check out the EC2 instances. You should be able to see them. (Note: Make sure you're in the same region as the Admin user)
+<img width="959" alt="step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/5eba7100-ec0f-49fe-a119-a4ade40a8141">
+
+7) Login and check out the EC2 instances. You should be able to see them. (Note: Make sure you're in the same region as the Admin user, otherwise you will be unable to view the instances.)
+<img width="960" alt="step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/2e70d771-ff1c-4012-96da-06d04bf8a356">
+
 8) Attempt to reboot one of the instances. What happens? 
+<img width="793" alt="step8" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ad0b21d6-32c4-4572-b06b-0c557d41e710">
+<img width="794" alt="step8_2nd" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ceec7425-f645-4254-9525-aec9169ea69c">
+
 9) You can leave this window open for the time being. 
 
 ### Creating a Role
