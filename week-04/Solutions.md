@@ -7,7 +7,7 @@
 4) Be sure the checkbox for user must create new password at next sign-in is DISABLED. Click apply. Download the password csv if you need it. 
 5) Copy the console sign-in link into a text editor of your choice. 
 6) Using a different browser, or a private browser, use the link for the console sign-in. Enter the IAM user name and the password you created. The account number should be auto-filled. 
-7) Login and check out the EC2 instances. You should be able to see them. 
+7) Login and check out the EC2 instances. You should be able to see them. (Note: Make sure you're in the same region as the Admin user)
 8) Attempt to reboot one of the instances. What happens? 
 9) You can leave this window open for the time being. 
 
