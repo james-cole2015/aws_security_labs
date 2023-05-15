@@ -29,7 +29,7 @@
 
 ### Creating a Role
 1) Go back to the Admin user where you created the CloudFormation Stack. 
-1) Navigate to IAM console and select "Roles" from the menu on the left side. 
+1) Navigate to IAM console and select "Roles" from the menu on the left side. Click "Create Role" on the top, right-hand side.
 2) Under Trusted Entity type, select AWS Account. Be sure that "This account" is selected below. Click next. 
 3) Search for "EC2" in the search bar. Find and select checkbox the `AmazonEC2FullAccess` policy. 
 4) Clear the search bar by click the X next to EC2. Search for S3. Find and select the checkbox for `AmazonS3FullAccess`. Scroll down and click next. 
