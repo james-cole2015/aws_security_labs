@@ -29,13 +29,27 @@
 
 ### Creating a Role
 1) Go back to the Admin user where you created the CloudFormation Stack. 
-1) Navigate to IAM console and select "Roles" from the menu on the left side. Click "Create Role" on the top, right-hand side.
-2) Under Trusted Entity type, select AWS Account. Be sure that "This account" is selected below. Click next. 
-3) Search for "EC2" in the search bar. Find and select checkbox the `AmazonEC2FullAccess` policy. 
-4) Clear the search bar by click the X next to EC2. Search for S3. Find and select the checkbox for `AmazonS3FullAccess`. Scroll down and click next. 
-2) Give the role a name called `EC2_S3_FullAccess`
+
+2) Navigate to IAM console and select "Roles" from the menu on the left side. Click "Create Role" on the top, right-hand side.
+<img width="911" alt="2_step2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/51dfd319-2aa1-4de0-b3e0-1f320a6937aa">
+
+3) Under Trusted Entity type, select AWS Account. Be sure that "This account" is selected below. Click next. 
+<img width="788" alt="2_step3" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/7d167c59-6aab-4ce6-b357-8668cb497715">
+
+4) Search for "EC2" in the search bar. Find and select checkbox the `AmazonEC2FullAccess` policy. 
+<img width="676" alt="2_step4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/be5f1472-2347-4d9a-819b-a61d804dc4c1">
+
+5) Clear the search bar by click the X next to EC2. Search for S3. Find and select the checkbox for `AmazonS3FullAccess`. Scroll down and click next. 
+<img width="638" alt="2_step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/f2aa6fa9-0fdb-4f1a-b42e-0adedc56b781">
+
+6) Give the role a name called `EC2_S3_FullAccess`
+<img width="508" alt="2_step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/089362a1-bc3a-47ec-8873-934848251877">
+
 7) Review the JSON policy so you understand what's happening here. This policy is allowing anyone within the AWS Account that you selected to assume this role and have the permissions associated with this role. 
+<img width="640" alt="2_step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/cf41acbc-dee7-4217-a212-3b001aab8e64">
+
 8) Click Create Role and make sure it completes before moving on. Click on the Role and copy the ARN. 
+<img width="674" alt="2_step8" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/65a9c277-3d2e-46f6-a516-6477729762b2">
 
 
 ### Assuming a Role
