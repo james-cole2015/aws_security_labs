@@ -2,24 +2,54 @@
 ***
 #### Enabling Console Access 
 1) Navigate to the IAM Console and select Users from the menu on the left side. Find the SarahJaneSmith user. Click on the user and then find the "Security Credentials" 
+
 2) Click the "Enable console access" under the "Console sign-in" section. 
+<img width="857" alt="step2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/dc487a38-001a-4148-8158-8345d8baca30">
+
 3) Click the "Enable" button. For the password, choose a custom password. Give the user a password. Make sure to remember it.
+<img width="460" alt="step3" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/294e93c8-69ef-4f31-9ddd-dd40f4bbd567">
+
 4) Be sure the checkbox for user must create new password at next sign-in is DISABLED. Click apply. Download the password csv if you need it. 
+<img width="465" alt="step4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/bae7f086-b297-4ecf-8cac-bf42f1f48608">
+
 5) Copy the console sign-in link into a text editor of your choice. 
+<img width="637" alt="step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/4210e8b6-6baf-4834-9e02-0902ab937b81">
+
 6) Using a different browser, or a private browser, use the link for the console sign-in. Enter the IAM user name and the password you created. The account number should be auto-filled. 
-7) Login and check out the EC2 instances. You should be able to see them. 
+<img width="959" alt="step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/5eba7100-ec0f-49fe-a119-a4ade40a8141">
+
+7) Login and check out the EC2 instances. You should be able to see them. (Note: Make sure you're in the same region as the Admin user, otherwise you will be unable to view the instances.)
+<img width="960" alt="step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/2e70d771-ff1c-4012-96da-06d04bf8a356">
+
 8) Attempt to reboot one of the instances. What happens? 
+<img width="793" alt="step8" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ad0b21d6-32c4-4572-b06b-0c557d41e710">
+<img width="794" alt="step8_2nd" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ceec7425-f645-4254-9525-aec9169ea69c">
+
 9) You can leave this window open for the time being. 
 
 ### Creating a Role
 1) Go back to the Admin user where you created the CloudFormation Stack. 
-1) Navigate to IAM console and select "Roles" from the menu on the left side. 
-2) Under Trusted Entity type, select AWS Account. Be sure that "This account" is selected below. Click next. 
-3) Search for "EC2" in the search bar. Find and select checkbox the `AmazonEC2FullAccess` policy. 
-4) Clear the search bar by click the X next to EC2. Search for S3. Find and select the checkbox for `AmazonS3FullAccess`. Scroll down and click next. 
-2) Give the role a name called `EC2_S3_FullAccess`
+
+2) Navigate to IAM console and select "Roles" from the menu on the left side. Click "Create Role" on the top, right-hand side.
+<img width="911" alt="2_step2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/51dfd319-2aa1-4de0-b3e0-1f320a6937aa">
+
+3) Under Trusted Entity type, select AWS Account. Be sure that "This account" is selected below. Click next. 
+<img width="788" alt="2_step3" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/7d167c59-6aab-4ce6-b357-8668cb497715">
+
+4) Search for "EC2" in the search bar. Find and select checkbox the `AmazonEC2FullAccess` policy. 
+<img width="676" alt="2_step4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/be5f1472-2347-4d9a-819b-a61d804dc4c1">
+
+5) Clear the search bar by click the X next to EC2. Search for S3. Find and select the checkbox for `AmazonS3FullAccess`. Scroll down and click next. 
+<img width="638" alt="2_step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/f2aa6fa9-0fdb-4f1a-b42e-0adedc56b781">
+
+6) Give the role a name called `EC2_S3_FullAccess`
+<img width="508" alt="2_step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/089362a1-bc3a-47ec-8873-934848251877">
+
 7) Review the JSON policy so you understand what's happening here. This policy is allowing anyone within the AWS Account that you selected to assume this role and have the permissions associated with this role. 
+<img width="640" alt="2_step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/cf41acbc-dee7-4217-a212-3b001aab8e64">
+
 8) Click Create Role and make sure it completes before moving on. Click on the Role and copy the ARN. 
+<img width="674" alt="2_step8" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/65a9c277-3d2e-46f6-a516-6477729762b2">
 
 
 ### Assuming a Role
