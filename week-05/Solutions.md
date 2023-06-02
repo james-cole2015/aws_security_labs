@@ -55,7 +55,7 @@ make sure to use .pem not .ppk
     - Click the orange "Launch Instance" button on the right. 
 15) Let's wait until both are in a running state and both are 2/2 for status check. 
 16) Note the Public DNS name for the `bastion-host` instance. 
-17) Let's test the security groups for the `Firewall` subnet first. Try to establish an ssh session with the `Bastion Host` instance. Move to the EC2 Console -> Instance. Click the checkbox next to the `Bastion Host` and then click `Connect` over on the right hand side. Follow the instructions for connecting to the EC2 instance using an SSH Client. 
+17) Let's test the security groups for the `Firewall` subnet first. Try to establish an ssh session with the `Bastion Host` instance. Move to the EC2 Console -> Instance. Click the checkbox next to the `Bastion Host` and then click `Connect` over on the right hand side. Follow the instructions for connecting to the EC2 instance using an SSH Client. Note: In the example below, the command prompt is used. Also, locate where your week-05-kp.pem is stored.
 18) If you've done everything correctly, you should be able to connect to the `Bastion Host`. This is because we've allowed ssh connectivity between your IP address and the EC2 instance. Exit out of this and return to the EC2 Console. 
 19) Let's try to connect to the `Protected Instance`. Repeat step 12. 
 20) Notice that you're unable to connect to this instance. Why is this? We set up a rule for ssh connection. However, we set it up so that only the `Bastion Host sg` would be able to connect to this host. What does this mean? This means that we have to use the Bastion Host instance to leapfrog our way into the `Protected Instance`. So let's do that. 
