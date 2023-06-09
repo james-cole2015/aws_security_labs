@@ -96,7 +96,7 @@ make sure to use .pem not .ppk
 
 11) Now we need to make sure we do the same thing for the `week-05-protected-acl`. Let's add the following inbound rules: 
     - Rule = 100, Type = HTTPS, Source = 0.0.0.0/0, Allow
-    - Rule = 120, Type = SSH, Source = < CIDR of `Firewall subnet` >, Allow
+    - Rule = 120, Type = SSH, Source = < CIDR of `Firewall subnet` >, Allow  (Note: You can get the CIDR of your subnet in the VPC console - shown below).
     - Rule = 130, Type = HTTP, Source = 0.0.0.0/0, Allow
     - Rule = 150, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow 
 
