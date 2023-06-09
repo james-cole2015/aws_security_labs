@@ -114,3 +114,4 @@ make sure to use .pem not .ppk
 - Delete all of the created security groups
 - Delete all of the NACLs
 - Delete the `week-05-kp`
+- Delete the week05-stack in CloudFormation
