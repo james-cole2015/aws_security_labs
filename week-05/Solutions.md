@@ -106,7 +106,9 @@ make sure to use .pem not .ppk
 <img width="584" alt="step21_revised" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ff50d801-2993-47cb-8ca6-cc90d26eb141">
 <img width="866" alt="step21_2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/752dc963-9e46-4caf-958a-bd887a331c18">
 
-22) Now, when you move back to your `Bastion Host` instance, you should run the `ll` command in the home directory and you should see the `week-05-kp.pem` listed. Now you should be able to repeat step 13 again and try to log into the `Protected Instance` again. This time it should work.
+22) Now, when you move back to your `Bastion Host` instance, you should run the `ll` command in the home directory and you should see the `week-05-kp.pem` listed. Now you should be able to repeat step 13 again and try to log into the `Protected Instance` again. This time it should work.</br>
+<img width="454" alt="step22_0" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/817a0539-4779-4b36-9510-637fffec4e13"></br>
+<img width="542" alt="step22" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/e69272e2-b85d-4fd7-a0bf-09e52cedea6d">
 
 23) Leave the instances and security groups running as we'll need them for the next lab. 
 
