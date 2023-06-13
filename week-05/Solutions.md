@@ -116,18 +116,25 @@ make sure to use .pem not .ppk
 01) Navigate to VPC Console -> Security -> Network ACLs
 
 02) Click the orange "Create network ACL"
+<img width="899" alt="c2_step2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/0dd4bc1f-efac-4d18-b45b-d4ffcfc4ce0a">
 
 03) Give it a name of `week-05-firewall-acl`
     - VPC = `week-05-vpc`
     - Click "Create network ACL" 
+<img width="575" alt="c2_step3" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/5808a0be-8637-433b-9bdd-2b2d01abf871">
 
 04) Repeat Step 03, but give it a name of `week-05-protected-acl`
+<img width="587" alt="c2_step4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/7fcd01ef-aed7-4aa2-b029-4e1910f094b0">
 
 05) Let's make sure we associate this with the subnet so that it's attached. Select the `week-05-firewall-acl` and click the Actions dropdown and hit "edit subnet associations". Click the checkbox for the "Firewall Subnet" and then hit Save changes. 
+<img width="721" alt="c2_step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/01404173-0112-41e9-b0c1-2b5e3cfdaaf6">
+<img width="880" alt="c2_step5_2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/323fcccd-d781-47ab-a072-0420880a115e">
 
 06) Try to SSH into the `Bastion Host`. Does it work? It fails because we've attached a NACL to the subnet, but the only rule in the NACL is to deny all traffic. Nothing gets in, nothing gets out. Let's create some rules to allow connectivity. 
+<img width="866" alt="c2_step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/4ec843bd-8aca-454a-9e4d-f9f2b30d39cb">
 
 07) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Inbound Rules" 
+<img width="731" alt="c2_step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/e586e979-db5e-4b9f-ada0-0231646cde69">
 
 08) Add the following rules: 
 
