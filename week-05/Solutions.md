@@ -144,29 +144,36 @@ make sure to use .pem not .ppk
     - Rule = 140, Type = Custom TCP, Port Range = 32768-65535, Allow
 
     - Click saves changes. 
+<img width="854" alt="c2_step8" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/2ee451f3-0abf-4ba7-a812-06ba57557005">
 
 09) Ok, now that we've set up some rules, let's try to SSH into the EC2 instance again. Ok, it still fails. Why? We've set up some rules, but we're still not getting connectivity. Well, the defining feature about NACLs is that they are stateless. This means that they don't care how traffic got in or out of the network, it needs a specific rule that allows it in or out. Unlike Security groups that are Stateful and will allow traffic out if the traffic is allowed in, NACLs are much more specific. To this end, we'll need to set up outbound rules that permit communication between the host and the ec2 instance. 
 
-09) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Outbound Rules" 
+10) Click the checkbox for the `week-05-firewall-acl` and Click the the "Actions" dropdown. Select "Edit Outbound Rules" 
+<img width="722" alt="c2_step10" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/7c7230e1-984d-44b5-86b1-e385de2656e9">
 
-10) Add the following rules: 
+11) Add the following rules: 
     - Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
     - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
     - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
     - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow
     - Click Save changes. 
+<img width="861" alt="c2_step11" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/fd68770b-5164-4260-9813-6dff54d4c204">
 
-11) Now we need to make sure we do the same thing for the `week-05-protected-acl`. Let's add the following inbound rules: 
+12) Now we need to make sure we do the same thing for the `week-05-protected-acl`. Let's add the following inbound rules: 
     - Rule = 100, Type = HTTPS, Source = 0.0.0.0/0, Allow
     - Rule = 120, Type = SSH, Source = < CIDR of `Firewall subnet` >, Allow  (Note: You can get the CIDR of your subnet in the VPC console - shown below).
     - Rule = 130, Type = HTTP, Source = 0.0.0.0/0, Allow
     - Rule = 150, Type = Custom TCP, Port Range = 1024-65535, Source = 0.0.0.0/0, Allow 
+<img width="722" alt="c2_step12" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/5a6690c0-4fd9-4db2-8399-4b95a482b66a">
+<img width="849" alt="c2_step12_2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/2461dbfb-b0f4-4161-b1df-6d52a4bd415d">
 
-12) Add some outbound rules to `week-05-protected-acl`: 
+13) Add some outbound rules to `week-05-protected-acl`: 
     - Rule = 100, Type = HTTP, Source = 0.0.0.0/0, Allow
     - Rule = 120, Type = HTTPS, Source = 0.0.0.0/0, Allow
     - Rule = 130, Type = SSH, Source = 0.0.0.0/0, Allow
     - Rule = 140, Type = Custom TCP, Port Range = 1024-65535, Source = < CIDR of `Firewall subnet` >, Allow
+<img width="858" alt="c2_step13" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/d8b8550f-cce1-4a46-b75a-1ab6dc3d703b">
+<img width="862" alt="c2_step13_2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/31242b58-f5b9-4dd6-bfe8-e71b84c135a5">
 
 << *For this exercise, we need to simulate a corporate IP, since we don't really have a corporate IP that we can play around with for this challenge. So, you can take your IP (google "what's my IP") and then remove the last two octets. So if your IP is 63.36.236.125, then you will add 63.36.0.0/16 as your "corporate CIDR". This is not exactly security best practice because this will allow a vast amount of IPv4 into the EC2 instance, but this is just meant to simulate a corporate environment in which only a specific set of IP addresses will be allowed into an ec2 instance* >> 
 
