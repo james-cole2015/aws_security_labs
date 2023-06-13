@@ -18,7 +18,7 @@
 6) Using a different browser, or a private browser, use the link for the console sign-in. Enter the IAM user name and the password you created. The account number should be auto-filled. 
 <img width="959" alt="step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/5eba7100-ec0f-49fe-a119-a4ade40a8141">
 
-7) Login and check out the EC2 instances. You should be able to see them. (Note: Make sure you're in the same region as the Admin user, otherwise you will be unable to view the instances.)
+7) Login and check out the EC2 instances. You should be able to see them. (**Note: Make sure you're in the same region as the Admin user**, otherwise you will be unable to view the instances.)
 <img width="960" alt="step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/2e70d771-ff1c-4012-96da-06d04bf8a356">
 
 8) Attempt to reboot one of the instances. What happens? 
@@ -54,20 +54,39 @@
 
 ### Assuming a Role
 1) Move back to the window where the `SarahJaneSmith` user has logged in. 
-1) In the top right hand menu, where your user name `SarahJaneSmith` is located, click the dropdown. Copy down the Account ID. 
-2) Towards the bottom of the menu, click the "Switch Role" button. 
-3) Click the blue Switch Role button. 
-4) Enter the Account ID, the Role name (`EC2_S3_FullAccess`) and pick a display name (`EC2_S3_Admin`) and then click Switch Role. 
-5) This doesn't work. Why? Well, the user has permissions for EC2 and S3 ReadOnly, but does it have permissions to use STS and assume a role? We need to modify the permissions of the SarahJaneSmith user to allow this. 
-6) Keep the window open, but move back to the Admin user window. 
-6) Move to IAM and the user. Under permissions, click the drop down for Add Permissions. Select "Add inline policy" 
-7) Under service, search and choose "STS" 
-8) Expand the "Write" selection and check the `AssumeRole` box. 
-9) For Resources, choose "All resources" Click Next. 
-10) Name the policy `STS-Assume-Role`. Click Create Policy. 
-11) Verify that the policy is added under Permissions policies. 
-12) Attempt Steps 1 through 4 again. It should work this time. 
-13) Verify that the role is active by rebooting any of the EC2 instances. 
+
+2) In the top right hand menu, where your user name `SarahJaneSmith` is located, click the dropdown. Copy down the Account ID. 
+<img width="246" alt="3_step2" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/499fb6c3-3c32-4172-9f8e-00957f1c2771">
+
+3) Towards the bottom of the menu, click the "Switch Role" button. 
+
+4) Click the blue Switch Role button. 
+
+5) Enter the Account ID, the Role name (`EC2_S3_FullAccess`) and pick a display name (`EC2_S3_Admin`) and then click Switch Role. 
+<img width="796" alt="3_step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/d8d6fdc9-f9ab-4b40-8af9-e9d71ebf0161">
+
+6) This doesn't work. Why? Well, the user has permissions for EC2 and S3 ReadOnly, but does it have permissions to use STS and assume a role? We need to modify the permissions of the SarahJaneSmith user to allow this. 
+
+7) Keep the window open, but move back to the Admin user window. 
+
+8) Move to IAM and the user. Under permissions, click the drop down for Add Permissions. Select "Add inline policy" 
+<img width="650" alt="3_step8" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/4c42e7ba-1db2-4bc6-a588-cef9b45303b6">
+
+9) Under service, search and choose "STS" 
+
+10) Expand the "Write" selection and check the `AssumeRole` box. 
+<img width="665" alt="3_step10" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/da15f130-ccd8-4cd8-a014-7fd98657a179">
+
+11) For Resources, choose "All resources" Click Next. 
+
+12) Name the policy `STS-Assume-Role`. Click Create Policy. 
+
+13) Verify that the policy is added under Permissions policies. 
+<img width="671" alt="3_step13" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ae79f202-1ad1-4688-9416-bab372b0aa17">
+
+14) Attempt Steps 1 through 4 again. It should work this time. 
+
+15) Verify that the role is active by rebooting any of the EC2 instances. 
 
 ## Challenge 02 Solutions: 
 ***
