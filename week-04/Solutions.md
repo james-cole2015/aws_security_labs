@@ -91,9 +91,13 @@
 ## Challenge 02 Solutions: 
 ***
 1) Navigate to the S3 Console and select the bucket that was created for you. Click on "Properties" and copy the ARN of the bucket. 
-1) Navigate to the AWS Policy Generator. https://awspolicygen.s3.amazonaws.com/policygen.html
-2) For the type of policy, choose "S3 Bucket Policy" 
-3) Enter the following for the Statement: 
+<img width="645" alt="c2_step1" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/5a0090bc-cb63-433d-80e3-7ee8e091f83a">
+
+2) Navigate to the AWS Policy Generator. https://awspolicygen.s3.amazonaws.com/policygen.html
+
+3) For the type of policy, choose "S3 Bucket Policy" 
+
+4) Enter the following for the Statement: 
     - Principal = "*"
     - AWS Service = Amazon S3
     - Actions = s3:GetObject
@@ -105,14 +109,27 @@
         - Hit the "Add condition" button. 
     - Now you can hit the "Add Statement" to generate the statement to the policy. 
     - We will have to do some modification, but you can hit the 'Generate Policy' to get the policy created. 
-4) Copy the policy JSON and then navigate back to the bucket. Select "Permissions" 
-5) Under Bucket policy, select the edit button to edit the policy. 
-6) Paste the policy into the text field. 
-7) Here is where we'll need to modify the policy slightly. On line 14, where the policy states `<key>`, we'll need to change this to the key that is in the customer requirements. Be mindful of capitialization, because tags are case sensitive. 
-8) Scroll down and hit "Save changes"
-9) Upload the `index.html` file into the bucket. Upload the `index2.html` file into the bucket. Do not add any tags. Once this is complete, in the properties section of the object you will see an "Object URL". Right click and open in a new tab or window. Repeat this for both files. 
-10) You will get an error. This is because of the policy that we added to the bucket. Objects can't be public unless they meet a specific tag requirement. Let's add that tag now. Leave the window or tab open. Go back to the S3 console and go to the properties of the `index.html` object. Scroll down to the Tags section. Add the key-value pair that the customer requires. Click "Save Changes". 
-11) Now, go back to window or tab that you opened for the object and refresh the tab or window. Now the object is accessible because the tag matches the policy evaluation. Do the same for `index2.html` and verify that you still don't have access to that file. 
+<img width="819" alt="c2_step4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/0df1f131-fac6-4fe3-97f6-e764b53af0e2">
+<img width="811" alt="c2_step4_2nd" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/17795c06-7d43-4b62-8894-c8a8da3ba973">
+
+5) Copy the policy JSON and then navigate back to the bucket. Select "Permissions" 
+<img width="641" alt="c2_step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/1cbcb77e-5d37-4369-ab19-c79b1456f44b">
+
+6) Under Bucket policy, select the edit button to edit the policy. 
+<img width="628" alt="c2_step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/b32cc90f-fdf0-401c-9df1-640ec6452d8d">
+
+7) Paste the policy into the text field.
+<img width="629" alt="c2_step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/c9d04107-05ec-4bdc-85c3-3cd93c1936f6">
+
+8) Here is where we'll need to modify the policy slightly. On line 14, where the policy states `<key>`, we'll need to change this to the key that is in the customer requirements. Be mindful of capitialization, because tags are case sensitive. 
+
+9) Scroll down and hit "Save changes"
+
+10) Upload the `index.html` file into the bucket. Upload the `index2.html` file into the bucket. Do not add any tags. Once this is complete, in the properties section of the object you will see an "Object URL". Right click and open in a new tab or window. Repeat this for both files. 
+
+11) You will get an error. This is because of the policy that we added to the bucket. Objects can't be public unless they meet a specific tag requirement. Let's add that tag now. Leave the window or tab open. Go back to the S3 console and go to the properties of the `index.html` object. Scroll down to the Tags section. Add the key-value pair that the customer requires. Click "Save Changes". 
+
+12) Now, go back to window or tab that you opened for the object and refresh the tab or window. Now the object is accessible because the tag matches the policy evaluation. Do the same for `index2.html` and verify that you still don't have access to that file. 
 
 
 ## Challenge 03 Solutions: 
@@ -130,17 +147,31 @@
 ## Creating a Dynamic Policy 
 ***
 10) Navigate to the AWS Policy Generator. https://awspolicygen.s3.amazonaws.com/policygen.html
+
 11) We're going to select IAM Policy and this will be for EC2 Service. For actions, find and check the actions for RebootInstance, StartInstance, StopInstance. 
+
 12) This should be for all instances ("*"), add this into the ARN field. Next we'll add conditions. 
+<img width="749" alt="policy2_3" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/e00953d5-4527-46c3-a400-31beda963524">
+
 13) Click conditions. Select StringEquals for the condition and `ec2:ResourceTag/${TagKey}` as the key. We're going to add a placeholder of `ec2-tag-value` here as we'll need to make this statement dynamic in nature. Click Add Condition. 
+<img width="777" alt="policy2_4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/2bb1f5b0-06e9-4d4d-a86d-d1839ab7fde3">
+
 14) Add another condition, but this time, use the `aws:PrincipalTag/${TagKey}` key. Use `user-value` as the value. This is just a placeholder and will be replaced. Click "Add Statement. 
+<img width="775" alt="policy2_5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/481c3d4b-c496-4435-ab2a-14895d9bd04a">
+
 15) Let's add another statement. This time you should select EC2 as the service, and then under actions, find and select the following: 
     - DescribeAvailabilityZones
     - DescribeInstanceStatus
     - DescribeInstanceTypes
     - DescribeInstances
+<img width="736" alt="policy2_step15" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/d3dc33b8-dc44-40ef-98b5-0d34028d5d5b">
+
 16) Use "*" in the ARN field and then click Add Statement. Review the statements, and if you're done, click "Generate Policy" 
+<img width="752" alt="policy2_step16" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/5e86256f-6423-4ba5-86a8-393c64eb56e6">
+
 17) Copy this into a text editor and then navigate to the IAM Console and create a new policy. Use the JSON Editor and replace the pre-generated text with the JSON policy you just generated. 
+<img width="615" alt="policy2_step17" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/af513c6a-9cdd-4210-9688-03442d8f34f7">
+
 18) The problem statement that we needed 1 policy that was applied to all users. This policy had to make sure that users could only interact with the EC2 instances that had the same tag key-value pair as the users. E.g., Only users that have a tag of `Department:Production` should be able to manage the EC2 instances that have a tag of `Department:Production`. They should not be allowed to manage EC2 instances with a tag of `Department:Development` or really anything that wasn't `Department:Production`. So, to accomplish this, we need to use variables instead of hard-coding values. First, like in the second challenge, we're going to replace `TagKey` with the tag key that we want to consolidate on. So in the line that says `"ec2:ResourceTag/${TagKey}"`, replace `${TagKey}` with `Department`. 
 19)  Now this is where the fun begins. Now we need to tell the policy to evaluate the value of the `Department` key for the user attempting to access the resource. For this, we're going to have to add another variable, but this time, in the "Value" portion of the statement. Let's modify the `aws:PrincipalTag/${KeyTag}` to reflect the `Department` value that we're looking for in a user. So like we did for the resource tag, replace `${TagKey}` with `Department`. Now, copy that `"aws:PrincipalTag/Department"` and replace `user-value` in the resource value in that line. So now the `ec2:Resource` line should look like this: `"ec2:ResourceTag/Department": "aws:PrincipalTag/Department"`. Let's add some brackets and dollar sign to the value portion so that the policy knows it's a variable. The final version should look like this: `"ec2:ResourceTag/Department": "${aws:PrincipalTag/Department}"`. Be sure to delete the line that starts with `aws:PrincipalTag`. If you leave this in here, the policy will not work. Click next and give the policy a name of `Dynamic_EC2_Policy`. Click Create. 
 20) Back in the IAM Console, go to Users -> AmeliaPond. Let's modify this users permissions so that this policy is added. Click Add Permissions -> Add Permissions. Attach a policy directly. Search for the `Dynamic_EC2_Policy` that we just created. Click Next and then Add permissions. 
