@@ -196,16 +196,32 @@
 <img width="615" alt="policy2_step17" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/af513c6a-9cdd-4210-9688-03442d8f34f7">
 
 18) The problem statement that we needed 1 policy that was applied to all users. This policy had to make sure that users could only interact with the EC2 instances that had the same tag key-value pair as the users. E.g., Only users that have a tag of `Department:Production` should be able to manage the EC2 instances that have a tag of `Department:Production`. They should not be allowed to manage EC2 instances with a tag of `Department:Development` or really anything that wasn't `Department:Production`. So, to accomplish this, we need to use variables instead of hard-coding values. First, like in the second challenge, we're going to replace `TagKey` with the tag key that we want to consolidate on. So in the line that says `"ec2:ResourceTag/${TagKey}"`, replace `${TagKey}` with `Department`. 
+<img width="720" alt="Screenshot 2023-08-03 135216" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/98925050-0891-499a-9bf6-ae9456d4000b">
+<img width="868" alt="Screenshot 2023-08-03 135247" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/336f53e4-a49f-4fcf-a918-c1a28744265c">
+<img width="314" alt="Screenshot 2023-08-03 135355" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/d3253cdd-65f7-413c-a37c-d658d4e6e2a7">
+<img width="358" alt="Screenshot 2023-08-03 135428" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/bfc266a5-caa1-4bec-a20d-08088fb3a5c1">
+
 19)  Now this is where the fun begins. Now we need to tell the policy to evaluate the value of the `Department` key for the user attempting to access the resource. For this, we're going to have to add another variable, but this time, in the "Value" portion of the statement. Let's modify the `aws:PrincipalTag/${KeyTag}` to reflect the `Department` value that we're looking for in a user. So like we did for the resource tag, replace `${TagKey}` with `Department`. Now, copy that `"aws:PrincipalTag/Department"` and replace `user-value` in the resource value in that line. So now the `ec2:Resource` line should look like this: `"ec2:ResourceTag/Department": "aws:PrincipalTag/Department"`. Let's add some brackets and dollar sign to the value portion so that the policy knows it's a variable. The final version should look like this: `"ec2:ResourceTag/Department": "${aws:PrincipalTag/Department}"`. Be sure to delete the line that starts with `aws:PrincipalTag`. If you leave this in here, the policy will not work. Click next and give the policy a name of `Dynamic_EC2_Policy`. Click Create. 
+<img width="399" alt="Screenshot 2023-08-03 135650" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/be157405-668e-4423-8b8b-92dd78475636">
+
 20) Back in the IAM Console, go to Users -> AmeliaPond. Let's modify this users permissions so that this policy is added. Click Add Permissions -> Add Permissions. Attach a policy directly. Search for the `Dynamic_EC2_Policy` that we just created. Click Next and then Add permissions. 
+<img width="701" alt="Screenshot 2023-08-03 140421" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/2de75ce6-733d-4fb3-9619-f4e54fbf708d">
 
 ## Verifying Access 
 *** 
 
 21) Log back into the console as the `AmeliaPond` user. Navigate to EC2 and you should be able to see all of the instances. Attempt to restart the Production instance. This should work now. Attempt to restart any of the other instances. It shouldn't work because the other instances have different tags than the `AmeliaPond` user. Don't close the window just yet. 
+<img width="959" alt="Screenshot 2023-08-03 140802" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/f1a625b6-20c6-44ba-839c-35fe1a4fac88">
+<img width="804" alt="Screenshot 2023-08-03 140819" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/1c9b82cb-e29a-4440-a500-78a34e70a2eb">
+
 22) Let's go back to the Admin window. Go to the IAM console --> Users. Click the `AmeliaPond`user. Go to Tags. 
+<img width="722" alt="Screenshot 2023-08-03 140854" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/e0074af2-a91b-4465-b39e-ab6a89a60e9e">
+
 23) Click "Manage Tags" Change the value of Department from 'Production' -> 'Application'. Save changes. 
+<img width="893" alt="Screenshot 2023-08-03 140952" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/b5551168-be55-4d1c-ad25-476b66062c4f">
+
 24) Go back to the AmeliaPond window and try to restart the Application instance. This should work, but now you won't be able to restart the Production instance. 
+<img width="797" alt="Screenshot 2023-08-03 141046" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/9b1f51f1-1a8e-49c6-99ef-0ffc928ebc5e">
 
 ## Environment Clean Up 
 - Before you delete the stack, perform the following: 
