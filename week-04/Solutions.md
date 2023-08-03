@@ -103,23 +103,36 @@
     - Principal = "*"
     - AWS Service = Amazon S3
     - Actions = s3:GetObject
+           <img width="784" alt="Screenshot 2023-08-03 125234" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/88a645a7-dbd7-4f17-b8d7-24d2f26ccded">
+
     - For the ARN you will want to copy the ARN of the bucket and then add a backslash and star. This makes sure that the objects in the bucket (rather than the bucket itself) are the targets. E.g., `arn:aws:s3:::week-04-bucketname/*`
+          <img width="646" alt="Screenshot 2023-08-03 125336" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ad7bc9f7-b2e4-427a-82d6-85a26ad8ce96">
+
     - Next we will add conditions. Since the customer only wants objects that are tagged with a key-value pair of `environment:aws-security-labs` we will have to make sure that this is accounted for in the bucket policy. Click the "Add Conditions" link. 
         - We will need to make sure that we're adding a "StringEquals" condition, since we're looking for an exact match of a tag. 
         - Since we are looking for an existing object tag, find and select the key that matches that condition. This should be s3:ExistingObjectTag/<key>
         - Then for value, add `aws-security-labs`
-        - Hit the "Add condition" button. 
-    - Now you can hit the "Add Statement" to generate the statement to the policy. 
+              <img width="765" alt="Screenshot 2023-08-03 125429" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/df8ae08a-3fd0-4adc-b18b-786b8725ee10">
+
+        - Hit the "Add condition" button.
+              <img width="748" alt="Screenshot 2023-08-03 125452" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/8c40c20a-53c5-4bb1-b3b8-6dd017e64146">
+
+    - Now you can hit the "Add Statement" to generate the statement to the policy.
+          <img width="788" alt="Screenshot 2023-08-03 125512" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/64c497bf-2d2c-48d3-8e2a-d0d84a72b5ca">
+
     - We will have to do some modification, but you can hit the 'Generate Policy' to get the policy created. 
+        <img width="616" alt="Screenshot 2023-08-03 125532" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/abb1410a-2a63-442e-a5fe-5d2a091b5a01">
 
 
 5) Copy the policy JSON and then navigate back to the bucket. Select "Permissions" 
 
 6) Under Bucket policy, select the edit button to edit the policy. 
+<img width="902" alt="Screenshot 2023-08-03 125922" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/28a590f9-5596-4fde-84ec-43c87e38c699">
 
 7) Paste the policy into the text field.
 
 8) Here is where we'll need to modify the policy slightly. On line 14, where the policy states `<key>`, we'll need to change this to the key that is in the customer requirements. Be mindful of capitialization, because tags are case sensitive. 
+<img width="391" alt="Screenshot 2023-08-03 130915" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/cdcb4cef-0759-48e0-814d-47d67914dc58">
 
 9) Scroll down and hit "Save changes"
 
