@@ -111,17 +111,13 @@
         - Hit the "Add condition" button. 
     - Now you can hit the "Add Statement" to generate the statement to the policy. 
     - We will have to do some modification, but you can hit the 'Generate Policy' to get the policy created. 
-<img width="819" alt="c2_step4" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/0df1f131-fac6-4fe3-97f6-e764b53af0e2">
-<img width="811" alt="c2_step4_2nd" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/17795c06-7d43-4b62-8894-c8a8da3ba973">
+
 
 5) Copy the policy JSON and then navigate back to the bucket. Select "Permissions" 
-<img width="641" alt="c2_step5" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/1cbcb77e-5d37-4369-ab19-c79b1456f44b">
 
 6) Under Bucket policy, select the edit button to edit the policy. 
-<img width="628" alt="c2_step6" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/b32cc90f-fdf0-401c-9df1-640ec6452d8d">
 
 7) Paste the policy into the text field.
-<img width="629" alt="c2_step7" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/c9d04107-05ec-4bdc-85c3-3cd93c1936f6">
 
 8) Here is where we'll need to modify the policy slightly. On line 14, where the policy states `<key>`, we'll need to change this to the key that is in the customer requirements. Be mindful of capitialization, because tags are case sensitive. 
 
