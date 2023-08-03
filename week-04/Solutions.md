@@ -146,13 +146,25 @@
 ## Challenge 03 Solutions: 
 ***
 ## Enable Console Access
-1) Navigate to the IAM Console and select Users from the menu on the left side. Find the AmeliaPond user. Click on the user and then find the "Security Credentials" 
+1) Navigate to the IAM Console and select Users from the menu on the left side. Find the AmeliaPond user. Click on the user and then find the "Security Credentials"
+
 2) Click the "Enable console access" under the "Console sign-in" section. 
+<img width="706" alt="Screenshot 2023-08-03 133950" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/e3792bf3-901f-4476-892f-6bea10f393d8">
+
 3) Click the "Enable" button. For the password, choose a custom password. Give the user a password. Make sure to remember it.
+<img width="412" alt="Screenshot 2023-08-03 134137" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/fd862463-f5d1-4899-9e50-932b20621f12">
+
 4) Be sure the checkbox for user must create new password at next sign-in is DISABLED. Click apply. Download the password csv if you need it. 
+
 5) Copy the console sign-in link into a text editor of your choice. 
+<img width="412" alt="Screenshot 2023-08-03 134152" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/8a93394c-6074-4eb7-a118-00ecb4a03cae">
+
 6) Using a different browser, or a private browser, use the link for the console sign-in. Enter the IAM user name and the password you created. The account number should be auto-filled. 
+<img width="960" alt="Screenshot 2023-08-03 134239" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/c98219f1-8eaf-414d-9de7-28fb78268322">
+
 7) Login and check out the EC2 instances. You shouldn't be able to see them. 
+<img width="960" alt="Screenshot 2023-08-03 134254" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/eeef04b1-bded-4779-8f48-4be41c8c6365">
+
 8) You can leave this window open for the time being. 
 
 ## Creating a Dynamic Policy 
