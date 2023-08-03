@@ -69,7 +69,7 @@
 
 7) Keep the window open, but move back to the Admin user window. 
 
-8) Move to IAM and the user. Under permissions, click the drop down for Add Permissions. Select "Add inline policy" 
+8) Move to IAM and the SarahJaneSmith user. Under permissions, click the drop down for Add Permissions. Select "Add inline policy" 
 <img width="650" alt="3_step8" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/4c42e7ba-1db2-4bc6-a588-cef9b45303b6">
 
 9) Under service, search and choose "STS" 
