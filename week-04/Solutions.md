@@ -85,8 +85,10 @@
 <img width="671" alt="3_step13" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/ae79f202-1ad1-4688-9416-bab372b0aa17">
 
 14) Attempt Steps 1 through 4 again. It should work this time. 
+<img width="960" alt="Screenshot 2023-08-03 123807" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/995e90db-b024-4de3-a7d9-bb46eca35dc9">
 
 15) Verify that the role is active by rebooting any of the EC2 instances. 
+<img width="960" alt="Screenshot 2023-08-03 123925" src="https://github.com/rhearora/aws_security_labs_copy/assets/129975163/f5fd183a-39b4-4245-a32e-f6b890854e78">
 
 ## Challenge 02 Solutions: 
 ***
